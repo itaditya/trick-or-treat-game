@@ -1,6 +1,6 @@
 ## How to use
 
-1. Click on the board.
+1. Click on the board. (Required for kicking in React Synthetic Keyboard Events)
 1. Use arrow keys to move the player (red) and collect the green sprites.
 
 ## App Logic
