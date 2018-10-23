@@ -1,13 +1,17 @@
 {
   "name": "collect-squares-game",
   "version": "1.0.0",
-  "description": "",
-  "keywords": [],
+  "description": null,
+  "keywords": [
+    "testing\\",
+    "game"
+  ],
   "main": "src/index.js",
   "dependencies": {
     "react": "16.4.2",
     "react-dom": "16.4.2",
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.4",
+    "react-testing-library": "5.2.1"
   },
   "devDependencies": {},
   "scripts": {
