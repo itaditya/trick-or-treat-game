@@ -1,13 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class Game extends Component {
   constructor(props) {
     super(props);
     const { boardSizeX, boardSizeY } = props;
-    this.spritesPos = this.generateSpritesPos(
-      boardSizeX,
-      boardSizeY
-    );
+    this.spritesPos = this.generateSpritesPos(boardSizeX, boardSizeY);
     this.moves = -1; // please check readme
     this.remainingSprites = boardSizeY;
 
@@ -24,9 +21,7 @@ class Game extends Component {
   generateSpritesPos(boardSizeX, boardSizeY) {
     const spritesPos = [];
     for (let i = 0; i < boardSizeY; i += 1) {
-      const spritePos = Math.floor(
-        Math.random() * boardSizeX
-      );
+      const spritePos = Math.floor(Math.random() * boardSizeX);
       spritesPos.push(spritePos);
     }
 
@@ -40,8 +35,7 @@ class Game extends Component {
       this.remainingSprites -= 1;
     }
 
-    const hasFinished =
-      this.remainingSprites === 0;
+    const hasFinished = this.remainingSprites === 0;
 
     if (!this.state.hasFinished && hasFinished) {
       setTimeout(() => {
@@ -156,26 +150,19 @@ class Game extends Component {
     for (let i = 0; i < boardSizeY; i++) {
       const rowInnerMarkup = [];
       for (let j = 0; j < boardSizeX; j++) {
-        const classList = ['board-cell'];
+        const classList = ["board-cell"];
         if (this.spritesPos[i] === j) {
-          classList.push('has-sprite');
+          classList.push("has-sprite");
         }
 
         if (userPosY === i && userPosX === j) {
-          classList.push('has-user');
+          classList.push("has-user");
         }
 
-        const className = classList.join(' ');
-        rowInnerMarkup.push(
-          <td
-            key={`${i}-${j}`}
-            className={className}
-          />
-        );
+        const className = classList.join(" ");
+        rowInnerMarkup.push(<td key={`${i}-${j}`} className={className} />);
       }
-      const rowMarkup = (
-        <tr key={i}>{rowInnerMarkup}</tr>
-      );
+      const rowMarkup = <tr key={i}>{rowInnerMarkup}</tr>;
       markup.push(rowMarkup);
     }
     return markup;
@@ -185,11 +172,7 @@ class Game extends Component {
     const { boardSizeX, boardSizeY } = this.props;
     this.updateMove(this.state.userPos);
     return (
-      <section
-        className="game"
-        tabIndex="0"
-        onKeyDown={this.keyHandler}
-      >
+      <section className="game" tabIndex="0" onKeyDown={this.keyHandler}>
         {this.state.hasFinished ? (
           <p>
             Took <strong>{this.moves} </strong>
@@ -197,13 +180,8 @@ class Game extends Component {
           </p>
         ) : (
           <div>
-            <table className="board">
-              <tbody>
-                {this.renderBoard(
-                  boardSizeX,
-                  boardSizeY
-                )}
-              </tbody>
+            <table className="board" data-testid="game-table">
+              <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
             </table>
             <p>
               Moves so far
