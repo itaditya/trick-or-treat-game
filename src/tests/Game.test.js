@@ -1,16 +1,22 @@
 import React from "react";
+// add some helpful assertions
+import 'jest-dom/extend-expect'
+// this is basically: afterEach(cleanup)
+import 'react-testing-library/cleanup-after-each'
 import { render } from "react-testing-library";
 
 import { Game } from "../Game";
 
-test("react-testing-library works", () => {
-  expect(1 + 2).toBe(3);
-  const boardSizeX = 10;
-  const boardSizeY = 10;
-  const { getByTestId, container } = render(
-    <Game boardSizeX={boardSizeX} boardSizeY={boardSizeY} />
-  );
+describe('Game board', () => {
+  it('should render correctly', () => {
+    const boardSizeX = 10;
+    const boardSizeY = 10;
+    const { getByTestId } = render(
+      <Game boardSizeX={boardSizeX} boardSizeY={boardSizeY} />
+    );
 
-  const gameTable = getByTestId("game-table");
-  expect(gameTable.children.length).toBe(1);
+    const gameTable = getByTestId("game-table");
+    expect(gameTable).toBeVisible();
+  });
+
 });
