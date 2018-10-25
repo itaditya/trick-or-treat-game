@@ -109,7 +109,7 @@ class Game extends Component {
     };
   };
 
-  moveRight = ({ userPos }) => {
+  moveRight({ userPos }) {
     const userPosX = userPos.x;
     let newX;
     const { boardSizeX } = this.props;
@@ -130,7 +130,7 @@ class Game extends Component {
     };
   };
 
-  keyHandler = event => {
+  keyHandler(event) {
     const { key } = event;
     const arrowMapping = {
       ArrowLeft: this.moveLeft,
@@ -160,7 +160,15 @@ class Game extends Component {
         }
 
         const className = classList.join(" ");
-        rowInnerMarkup.push(<td key={`${i}-${j}`} className={className} />);
+        let test;
+        if (classList.indexOf('has-user') !== -1) {
+          test = 'user';
+        } else if (classList.indexOf('has-sprite') !== -1) {
+          test = 'sprite'
+        } else {
+          test = null;
+        }
+        rowInnerMarkup.push(<td key={`${i}-${j}`} className={className} aria-label={test} />);
       }
       const rowMarkup = <tr key={i}>{rowInnerMarkup}</tr>;
       markup.push(rowMarkup);
@@ -172,23 +180,23 @@ class Game extends Component {
     const { boardSizeX, boardSizeY } = this.props;
     this.updateMove(this.state.userPos);
     return (
-      <section className="game" tabIndex="0" onKeyDown={this.keyHandler}>
+      <section aria-label='mainBoard' className="game" tabIndex="0" onKeyDown={this.keyHandler}>
         {this.state.hasFinished ? (
           <p>
             Took <strong>{this.moves} </strong>
             moves
           </p>
         ) : (
-          <div>
-            <table className="board" data-testid="game-table">
-              <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
-            </table>
-            <p>
-              Moves so far
+            <div>
+              <table className="board" data-testid="game-table">
+                <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
+              </table>
+              <p>
+                Moves so far
               <strong> {this.moves}</strong>
-            </p>
-          </div>
-        )}
+              </p>
+            </div>
+          )}
       </section>
     );
   }
