@@ -5,7 +5,7 @@ class Game extends Component {
     super(props);
     const { boardSizeX, boardSizeY } = props;
     this.spritesPos = this.generateSpritesPos(boardSizeX, boardSizeY);
-    this.moves = -1; // please check readme
+    this.moves = 0; // please check readme
     this.remainingSprites = boardSizeY;
 
     // initially user is placed in center
@@ -38,14 +38,10 @@ class Game extends Component {
     const hasFinished = this.remainingSprites === 0;
 
     if (!this.state.hasFinished && hasFinished) {
-      setTimeout(() => {
-        this.setState({
-          hasFinished: true
-        });
-      }, 300);
-      return;
+      this.setState({
+        hasFinished: true
+      });
     }
-    this.moves += 1;
   }
 
   moveUp = ({ userPos }) => {
@@ -54,6 +50,7 @@ class Game extends Component {
 
     if (userPosY > 0) {
       newY = userPosY - 1;
+      this.moves += 1;
     } else {
       newY = userPosY;
     }
@@ -75,6 +72,7 @@ class Game extends Component {
 
     if (userPosY < boardSizeY - 1) {
       newY = userPosY + 1;
+      this.moves += 1;
     } else {
       newY = userPosY;
     }
@@ -95,6 +93,7 @@ class Game extends Component {
 
     if (userPosX > 0) {
       newX = userPosX - 1;
+      this.moves += 1;
     } else {
       newX = userPosX;
     }
@@ -116,6 +115,7 @@ class Game extends Component {
 
     if (userPosX < boardSizeX - 1) {
       newX = userPosX + 1;
+      this.moves += 1;
     } else {
       newX = userPosX;
     }
@@ -139,7 +139,7 @@ class Game extends Component {
       ArrowDown: this.moveDown
     };
     const stateUpdater = arrowMapping[key];
-    this.setState(stateUpdater);
+    this.setState(stateUpdater, () => this.updateMove(this.state.userPos));
   };
 
   renderBoard(boardSizeX, boardSizeY) {
@@ -170,9 +170,9 @@ class Game extends Component {
 
   render() {
     const { boardSizeX, boardSizeY } = this.props;
-    this.updateMove(this.state.userPos);
+    // this.updateMove(this.state.userPos);
     return (
-      <section className="game" tabIndex="0" onKeyDown={this.keyHandler}>
+      <section className="game">
         {this.state.hasFinished ? (
           <p>
             Took <strong>{this.moves} </strong>
@@ -180,7 +180,12 @@ class Game extends Component {
           </p>
         ) : (
           <div>
-            <table className="board" data-testid="game-table">
+            <table
+              className="board"
+              tabIndex="0"
+              onKeyDown={this.keyHandler}
+              data-testid="game-table"
+            >
               <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
             </table>
             <p>
