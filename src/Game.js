@@ -172,7 +172,7 @@ class Game extends Component {
     const { boardSizeX, boardSizeY } = this.props;
     this.updateMove(this.state.userPos);
     return (
-      <section className="game" tabIndex="0" onKeyDown={this.keyHandler}>
+      <section className="game">
         {this.state.hasFinished ? (
           <p>
             Took <strong>{this.moves} </strong>
@@ -180,7 +180,12 @@ class Game extends Component {
           </p>
         ) : (
           <div>
-            <table className="board" data-testid="game-table">
+            <table
+              className="board"
+              tabIndex="0"
+              onKeyDown={this.keyHandler}
+              data-testid="game-table"
+            >
               <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
             </table>
             <p>
