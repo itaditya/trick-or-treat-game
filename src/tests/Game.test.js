@@ -34,3 +34,64 @@ describe('Game board', () => {
         expect(spriteTiles).toHaveLength(10);
     });
 });
+
+describe('User movement', () => {
+    let board;
+    let reactHashKey;
+
+    beforeEach(() => {
+        const { getByTestId, container } = render(
+            <Game boardSizeX={boardSizeX} boardSizeY={boardSizeY} />
+        );
+
+        board = getByTestId('game-table');
+        const user = container.querySelector('.has-user');
+        reactHashKey = Object.keys(user)[0];
+        const initialCoordinates = user[reactHashKey].key;
+        expect(initialCoordinates).toBe('5-5');
+    })
+
+    it('should move user left when left arrow key is pressed', () => {
+        fireEvent.keyDown(board, {
+            key: 'ArrowLeft',
+            keyCode: 37
+        });
+
+        const newUser = document.querySelector('.has-user');
+        const positionAfterMove = newUser[reactHashKey].key;
+        expect(positionAfterMove).toBe('5-4');
+    });
+
+    it('should move user right when right arrow key is pressed', () => {
+        fireEvent.keyDown(board, {
+            key: 'ArrowRight',
+            keyCode: 39
+        });
+
+        const newUser = document.querySelector('.has-user');
+        const positionAfterMove = newUser[reactHashKey].key;
+        expect(positionAfterMove).toBe('5-6');
+    });
+
+    it('should move user down when down arrow key is pressed', () => {
+        fireEvent.keyDown(board, {
+            key: 'ArrowDown',
+            keyCode: 40
+        });
+
+        const newUser = document.querySelector('.has-user');
+        const positionAfterMove = newUser[reactHashKey].key;
+        expect(positionAfterMove).toBe('6-5');
+    });
+
+    it('should move user up when up arrow key is pressed', () => {
+        fireEvent.keyDown(board, {
+            key: 'ArrowUp',
+            keyCode: 38
+        });
+
+        const newUser = document.querySelector('.has-user');
+        const positionAfterMove = newUser[reactHashKey].key;
+        expect(positionAfterMove).toBe('4-5');
+    });
+});
