@@ -95,3 +95,18 @@ describe('User movement', () => {
         expect(positionAfterMove).toBe('4-5');
     });
 });
+
+describe('Move counter', () => {
+    it('should update move count after user move', () => {
+        const { getByTestId } = render(
+            <Game boardSizeX={boardSizeX} boardSizeY={boardSizeY} />
+        );
+        const board = getByTestId('game-table');
+        fireEvent.keyDown(board, {
+            key: 'ArrowUp',
+            keyCode: 38
+        });
+        const moveCounter = getByTestId('moveCounter');
+        expect(Number(moveCounter.innerHTML)).toEqual(1);
+    });
+});
