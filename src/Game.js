@@ -175,7 +175,7 @@ class Game extends Component {
       <section className="game">
         {this.state.hasFinished ? (
           <p>
-            Took <strong>{this.moves} </strong>
+            Took <strong data-testid="moveCounter">{this.moves} </strong>
             moves
           </p>
         ) : (
