@@ -31,35 +31,35 @@ describe('Game board', () => {
         );
 
         const spriteTiles = container.querySelectorAll('.has-sprite');
-        expect(spriteTiles).toHaveLength(10);
+        expect(spriteTiles).toHaveLength(boardSizeY);
     });
 });
 
 describe('User movement', () => {
     let board;
-    let reactHashKey;
+    let initialPosition;
 
     beforeEach(() => {
         const { getByTestId, container } = render(
             <Game boardSizeX={boardSizeX} boardSizeY={boardSizeY} />
         );
-
+        // It has to +1, as applying for has-user class happens in a loop, that is iterating from 0.
+        initialPosition = { x: Math.floor(boardSizeX / 2) + 1, y: Math.floor(boardSizeY / 2) + 1 };
         board = getByTestId('game-table');
-        const user = container.querySelector('.has-user');
-        reactHashKey = Object.keys(user)[0];
-        const initialCoordinates = user[reactHashKey].key;
-        expect(initialCoordinates).toBe('5-5');
-    })
+        const userPosition = container.querySelector(`tr:nth-child(${initialPosition.y})>td:nth-child(${initialPosition.x})`);
+        expect(userPosition.classList.contains('has-user')).toBe(true);
+    });
 
     it('should move user left when left arrow key is pressed', () => {
         fireEvent.keyDown(board, {
             key: 'ArrowLeft',
             keyCode: 37
         });
+        const newUserPosition = board.querySelector(
+            `tr:nth-child(${initialPosition.y})>td:nth-child(${initialPosition.x - 1})`
+        );
 
-        const newUser = document.querySelector('.has-user');
-        const positionAfterMove = newUser[reactHashKey].key;
-        expect(positionAfterMove).toBe('5-4');
+        expect(newUserPosition.classList.contains('has-user')).toBe(true);
     });
 
     it('should move user right when right arrow key is pressed', () => {
@@ -67,10 +67,10 @@ describe('User movement', () => {
             key: 'ArrowRight',
             keyCode: 39
         });
-
-        const newUser = document.querySelector('.has-user');
-        const positionAfterMove = newUser[reactHashKey].key;
-        expect(positionAfterMove).toBe('5-6');
+        const newUserPosition = board.querySelector(
+            `tr:nth-child(${initialPosition.y})>td:nth-child(${initialPosition.x + 1})`
+        );
+        expect(newUserPosition.classList.contains('has-user')).toBe(true);
     });
 
     it('should move user down when down arrow key is pressed', () => {
@@ -78,10 +78,10 @@ describe('User movement', () => {
             key: 'ArrowDown',
             keyCode: 40
         });
-
-        const newUser = document.querySelector('.has-user');
-        const positionAfterMove = newUser[reactHashKey].key;
-        expect(positionAfterMove).toBe('6-5');
+        const newUserPosition = board.querySelector(
+            `tr:nth-child(${initialPosition.y + 1})>td:nth-child(${initialPosition.y})`
+        );
+        expect(newUserPosition.classList.contains('has-user')).toBe(true);
     });
 
     it('should move user up when up arrow key is pressed', () => {
@@ -89,24 +89,10 @@ describe('User movement', () => {
             key: 'ArrowUp',
             keyCode: 38
         });
-
-        const newUser = document.querySelector('.has-user');
-        const positionAfterMove = newUser[reactHashKey].key;
-        expect(positionAfterMove).toBe('4-5');
-    });
-});
-
-describe('Move counter', () => {
-    it('should update move count after user move', () => {
-        const { getByTestId } = render(
-            <Game boardSizeX={boardSizeX} boardSizeY={boardSizeY} />
+        const newUserPosition = board.querySelector(
+            `tr:nth-child(${initialPosition.y - 1})>td:nth-child(${initialPosition.y})`
         );
-        const board = getByTestId('game-table');
-        fireEvent.keyDown(board, {
-            key: 'ArrowUp',
-            keyCode: 38
-        });
-        const moveCounter = getByTestId('moveCounter');
-        expect(Number(moveCounter.innerHTML)).toEqual(1);
+        console.log(newUserPosition.innerHTML)
+        expect(newUserPosition.classList.contains('has-user')).toBe(true);
     });
 });
