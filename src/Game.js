@@ -175,25 +175,25 @@ class Game extends Component {
       <section className="game">
         {this.state.hasFinished ? (
           <p>
-            Took <strong>{this.moves} </strong>
+            Took <strong data-testid="moveCounter">{this.moves} </strong>
             moves
           </p>
         ) : (
-          <div>
-            <table
-              className="board"
-              tabIndex="0"
-              onKeyDown={this.keyHandler}
-              data-testid="game-table"
-            >
-              <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
-            </table>
-            <p>
-              Moves so far
-              <strong> {this.moves}</strong>
-            </p>
-          </div>
-        )}
+            <div>
+              <table
+                className="board"
+                tabIndex="0"
+                onKeyDown={this.keyHandler}
+                data-testid="game-table"
+              >
+                <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
+              </table>
+              <p>
+                Moves so far
+              <strong data-testid="moveCounter"> {this.moves}</strong>
+              </p>
+            </div>
+          )}
       </section>
     );
   }
