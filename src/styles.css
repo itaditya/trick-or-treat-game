@@ -16,21 +16,54 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: #000;
 }
 
 .board {
   border-collapse: collapse;
+  background-color: rgba(0, 0, 0, 0.6);
+  background-image: url('/images/board-background.png');
+  background-blend-mode: overlay;
+  background-size: cover;
+  background-position: center;
 }
 
 .board-cell {
-  border: 1px solid black;
-  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.board-cell.has-sprite {
-  background-color: green;
+.board-cell.sprite-1 {
+  background-image: url('/images/sweet-1.png');
+}
+
+.board-cell.sprite-2 {
+  background-image: url('/images/sweet-2.png');
+}
+
+.board-cell.sprite-3 {
+  background-image: url('/images/sweet-3.png');
 }
 
 .board-cell.has-user {
-  background-color: red;
+  /*background-color: rgba(255, 255, 255, 0.26);*/
+  background-image: url('/images/user.png');
+  animation: bg-pulse 0.6s linear infinite alternate;
+}
+
+.moves {
+  color: #fff;
+}
+
+@keyframes bg-pulse {
+  from {
+    background-color: rgba(255, 255, 255, 0.26);
+  }
+
+  to {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
 }

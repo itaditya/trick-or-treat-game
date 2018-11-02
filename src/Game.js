@@ -151,12 +151,12 @@ class Game extends Component {
       const rowInnerMarkup = [];
       for (let j = 0; j < boardSizeX; j++) {
         const classList = ["board-cell"];
-        if (this.spritesPos[i] === j) {
-          classList.push("has-sprite");
-        }
-
         if (userPosY === i && userPosX === j) {
           classList.push("has-user");
+        } else if (this.spritesPos[i] === j) {
+          classList.push("has-sprite");
+          const spriteType = j % 3 + 1;
+          classList.push(`sprite-${spriteType}`);
         }
 
         const className = classList.join(" ");
@@ -170,13 +170,16 @@ class Game extends Component {
 
   render() {
     const { boardSizeX, boardSizeY } = this.props;
-    // this.updateMove(this.state.userPos);
     return (
       <section className="game">
         {this.state.hasFinished ? (
-          <p>
-            Took <strong data-testid="moveCounter">{this.moves} </strong>
+          <p className="moves">
+            Took
+              <strong data-testid="moveCounter">{this.moves}</strong>
             moves
+            <br />
+            <br />
+            Refresh page to play again
           </p>
         ) : (
             <div>
@@ -188,9 +191,9 @@ class Game extends Component {
               >
                 <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
               </table>
-              <p>
+              <p className="moves">
                 Moves so far
-              <strong data-testid="moveCounter"> {this.moves}</strong>
+                <strong data-testid="moveCounter">{this.moves}</strong>
               </p>
             </div>
           )}
