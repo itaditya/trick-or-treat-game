@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": null,
   "keywords": [
-    "testing\\",
+    "testing",
     "game"
   ],
   "main": "src/index.js",
@@ -12,9 +12,6 @@
     "react-dom": "16.4.2",
     "react-scripts": "1.1.4",
     "react-testing-library": "5.2.1"
-  },
-  "devDependencies": {
-    "jest-dom": "^2.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
