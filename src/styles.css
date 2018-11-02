@@ -20,6 +20,7 @@ body {
 }
 
 .board {
+  outline: 0;
   border-collapse: collapse;
   background-color: rgba(0, 0, 0, 0.6);
   background-image: url('/images/board-background.png');

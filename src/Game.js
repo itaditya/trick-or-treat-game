@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 
 class Game extends Component {
   constructor(props) {
@@ -7,7 +7,7 @@ class Game extends Component {
     this.spritesPos = this.generateSpritesPos(boardSizeX, boardSizeY);
     this.moves = 0; // please check readme
     this.remainingSprites = boardSizeY;
-
+    this.boardRef = createRef();
     // initially user is placed in center
     this.state = {
       userPos: {
@@ -16,6 +16,17 @@ class Game extends Component {
       },
       hasFinished: false
     };
+  }
+
+  componentDidMount() {
+    this.focusBoard();
+  }
+
+  focusBoard() {
+    const boardRef = this.boardRef.current;
+    if(boardRef) {
+      boardRef.focus();
+    }
   }
 
   generateSpritesPos(boardSizeX, boardSizeY) {
@@ -130,6 +141,10 @@ class Game extends Component {
     };
   };
 
+  handleGameClick = () => {
+    this.focusBoard();
+  }
+
   keyHandler = event => {
     const { key } = event;
     const arrowMapping = {
@@ -171,12 +186,12 @@ class Game extends Component {
   render() {
     const { boardSizeX, boardSizeY } = this.props;
     return (
-      <section className="game">
+      <section className="game" onClick={this.handleGameClick}>
         {this.state.hasFinished ? (
           <p className="moves">
-            Took
-              <strong data-testid="moveCounter">{this.moves}</strong>
-            moves
+            Took &nbsp;
+            <strong data-testid="moveCounter">{this.moves}</strong>
+            &nbsp; moves
             <br />
             <br />
             Refresh page to play again
@@ -186,6 +201,7 @@ class Game extends Component {
               <table
                 className="board"
                 tabIndex="0"
+                ref={this.boardRef}
                 onKeyDown={this.keyHandler}
                 data-testid="game-table"
               >
@@ -193,6 +209,7 @@ class Game extends Component {
               </table>
               <p className="moves">
                 Moves so far
+                &nbsp;
                 <strong data-testid="moveCounter">{this.moves}</strong>
               </p>
             </div>
