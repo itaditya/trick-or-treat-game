@@ -10,7 +10,7 @@
   "dependencies": {
     "react": "16.4.2",
     "react-dom": "16.4.2",
-    "react-scripts": "1.1.4",
+    "react-scripts": "^3.1.2",
     "react-testing-library": "5.2.1"
   },
   "scripts": {
@@ -19,5 +19,17 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "deploy": "npm run build && surge -p build/ -d https://trickortreat.surge.sh"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
