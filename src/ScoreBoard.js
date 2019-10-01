@@ -1,11 +1,12 @@
-import React from "react";
-import "./scoreboard.css";
+import React from 'react';
 
-class Scoreboard extends React.Component {
+import './scoreboard.css';
+
+class ScoreBoard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userMoves: null
+      userMoves: null,
     };
   }
 
@@ -13,7 +14,7 @@ class Scoreboard extends React.Component {
     this.getUserMovesFromLocalStorage();
   }
   getUserMovesFromLocalStorage() {
-    let savedUserMoves = localStorage.getItem("userMoves");
+    let savedUserMoves = localStorage.getItem('userMoves');
     if (savedUserMoves) {
       savedUserMoves = JSON.parse(savedUserMoves);
       savedUserMoves.sort((user1, user2) => user1.moves - user2.moves);
@@ -24,43 +25,27 @@ class Scoreboard extends React.Component {
   renderScoreboard() {
     const { userMoves } = this.state;
     return (
-      <div className="scoreboard">
-        <div className="scoreboard-title">Scoreboard</div>
-        <table>
-          <tbody>
+      <div>
+        <div className="scoreboard-title">Score Board</div>
+        <ol className="scoreboard-list">
             {userMoves.map(({ name, moves }, index) => {
-              let color = "#FFFFF";
-              if (index === 0) {
-                //green - top score - least moves
-                color = "#01D28E";
-              }
-              if (index > 0 && index === userMoves.length - 1) {
-                //red - worst score - most moves
-                color = "#FA1D2F";
-              }
               return (
-                <tr
+                <li
                   key={index}
-                  style={{
-                    color
-                  }}
+                  className="scoreboard-item"
                 >
-                  <td>{index + 1}.</td>
-                  <td>{name}</td>
-                  <td>{moves}</td>
-                </tr>
+                  <strong>{name}</strong>
+                  <span>: {moves} moves</span>
+                </li>
               );
             })}
-          </tbody>
-        </table>
+        </ol>
       </div>
     );
   }
   render() {
-    return this.state.userMoves
-      ? this.renderScoreboard()
-      : null;
+    return this.state.userMoves ? this.renderScoreboard() : null;
   }
 }
 
-export default Scoreboard;
+export { ScoreBoard };
