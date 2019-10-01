@@ -9,6 +9,18 @@
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
+    <script>
+      //*The script responsible for registering the service worker. *//
+        if('serviceWorker' in navigator){
+          navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('service worker registered'))
+            .catch(err => console.log('service worker not registered', err));
+      }
+      else{
+          console.log("Service worker not supported by the browser.");
+      }
+    </script>
+    
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
   <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
   <!--
@@ -20,7 +32,7 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-  <title>React App</title>
+  <title>Trick or Treat</title>
 </head>
 
 <body>
