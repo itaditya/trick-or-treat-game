@@ -157,6 +157,19 @@ class Game extends Component {
     this.setState(stateUpdater, () => this.updateMove(this.state.userPos));
   };
 
+  clickHandler = event => {
+    const key = event.currentTarget.dataset.key;
+    console.log(key)
+    const arrowMapping = {
+      ArrowLeft: this.moveLeft,
+      ArrowRight: this.moveRight,
+      ArrowUp: this.moveUp,
+      ArrowDown: this.moveDown
+    };
+    const stateUpdater = arrowMapping[key];
+    this.setState(stateUpdater, () => this.updateMove(this.state.userPos));
+  };
+
   renderBoard(boardSizeX, boardSizeY) {
     const {
       userPos: { x: userPosX, y: userPosY }
@@ -212,6 +225,32 @@ class Game extends Component {
                 &nbsp;
                 <strong data-testid="moveCounter">{this.moves}</strong>
               </p>
+              <div className="gamepad">
+                <button 
+                className="gamepad__control gamepad__control--up"
+                onClick={this.clickHandler}
+                data-key="ArrowUp">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 8l6 6H6z" fill="rgba(255,255,255,1)"/></svg>
+                </button>
+                <button
+                className="gamepad__control gamepad__control--right"
+                onClick={this.clickHandler}
+                data-key="ArrowRight">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36"><path fill="none" d="M0 0h24v24H0z"/><path d="M16 12l-6 6V6z" fill="rgba(255,255,255,1)"/></svg>
+                </button>
+                <button
+                className="gamepad__control gamepad__control--left"
+                onClick={this.clickHandler}
+                data-key="ArrowLeft">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36"><path fill="none" d="M0 0h24v24H0z"/><path d="M8 12l6-6v12z" fill="rgba(255,255,255,1)"/></svg>
+                </button>
+                <button
+                className="gamepad__control gamepad__control--down"
+                onClick={this.clickHandler}
+                data-key="ArrowDown">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 16l-6-6h12z" fill="rgba(255,255,255,1)"/></svg>
+                </button>
+              </div>
             </div>
           )}
       </section>

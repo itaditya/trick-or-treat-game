@@ -31,10 +31,22 @@ body {
 
 .board-cell {
   border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 20px;
+  padding: 14px;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+@media (min-width: 400px) {
+  .board-cell {
+    padding: 18px;
+  }
+}
+
+@media (min-width: 768px) {
+  .board-cell {
+    padding: 20px;
+  }
 }
 
 .board-cell.sprite-1 {
@@ -57,6 +69,44 @@ body {
 
 .moves {
   color: #fff;
+}
+
+.gamepad {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+}
+
+.gamepad__control {
+  display: block;
+  position: absolute;
+  top: 0;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.4);
+  padding: 0;
+  outline: none;
+}
+
+.gamepad__control--up, .gamepad__control--down {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.gamepad__control--left {
+  top: 30px;
+  left: 0;
+}
+
+.gamepad__control--right {
+  top: 30px;
+  right: 0;
+}
+
+.gamepad__control--down {
+  top: 60px;
 }
 
 @keyframes bg-pulse {
