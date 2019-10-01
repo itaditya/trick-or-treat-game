@@ -1,13 +1,10 @@
-import React, { Component, createRef } from "react";
+import React, { Component, createRef, Fragment } from "react";
 
 class Game extends Component {
   constructor(props) {
     super(props);
     const { boardSizeX, boardSizeY } = props;
-    this.spritesPos = this.generateSpritesPos(boardSizeX, boardSizeY);
-    this.moves = 0; // please check readme
-    this.remainingSprites = boardSizeY;
-    this.boardRef = createRef();
+    this.initGame(boardSizeX, boardSizeY);
     // initially user is placed in center
     this.state = {
       userPos: {
@@ -18,13 +15,20 @@ class Game extends Component {
     };
   }
 
+  initGame = (boardSizeX, boardSizeY) => {
+    this.spritesPos = this.generateSpritesPos(boardSizeX, boardSizeY);
+    this.moves = 0; // please check readme
+    this.remainingSprites = boardSizeY;
+    this.boardRef = createRef();
+  };
+
   componentDidMount() {
     this.focusBoard();
   }
 
   focusBoard() {
     const boardRef = this.boardRef.current;
-    if(boardRef) {
+    if (boardRef) {
       boardRef.focus();
     }
   }
@@ -143,7 +147,22 @@ class Game extends Component {
 
   handleGameClick = () => {
     this.focusBoard();
-  }
+  };
+
+  handleGameRefresh = () => {
+    const { boardSizeX, boardSizeY } = this.props;
+    this.initGame(boardSizeX, boardSizeY);
+    this.setState({
+      userPos: {
+        x: Math.floor(boardSizeX / 2),
+        y: Math.floor(boardSizeY / 2)
+      },
+      hasFinished: false
+    });
+    setTimeout(() => {
+      this.focusBoard();
+    }, 100);
+  };
 
   keyHandler = event => {
     const { key } = event;
@@ -170,7 +189,7 @@ class Game extends Component {
           classList.push("has-user");
         } else if (this.spritesPos[i] === j) {
           classList.push("has-sprite");
-          const spriteType = j % 3 + 1;
+          const spriteType = (j % 3) + 1;
           classList.push(`sprite-${spriteType}`);
         }
 
@@ -188,32 +207,36 @@ class Game extends Component {
     return (
       <section className="game" onClick={this.handleGameClick}>
         {this.state.hasFinished ? (
-          <p className="moves">
-            Took &nbsp;
-            <strong data-testid="moveCounter">{this.moves}</strong>
-            &nbsp; moves
-            <br />
-            <br />
-            Refresh page to play again
-          </p>
+          <Fragment>
+            <p className="moves">
+              Took &nbsp;
+              <strong data-testid="moveCounter">{this.moves}</strong>
+              &nbsp; moves
+              <br />
+              <br />
+              Refresh page to play again{" "}
+            </p>
+            <button data-testid="refresh-btn" onClick={this.handleGameRefresh}>
+              Refresh
+            </button>
+          </Fragment>
         ) : (
-            <div>
-              <table
-                className="board"
-                tabIndex="0"
-                ref={this.boardRef}
-                onKeyDown={this.keyHandler}
-                data-testid="game-table"
-              >
-                <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
-              </table>
-              <p className="moves">
-                Moves so far
-                &nbsp;
-                <strong data-testid="moveCounter">{this.moves}</strong>
-              </p>
-            </div>
-          )}
+          <div>
+            <table
+              className="board"
+              tabIndex="0"
+              ref={this.boardRef}
+              onKeyDown={this.keyHandler}
+              data-testid="game-table"
+            >
+              <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
+            </table>
+            <p className="moves">
+              Moves so far &nbsp;
+              <strong data-testid="moveCounter">{this.moves}</strong>
+            </p>
+          </div>
+        )}
       </section>
     );
   }
