@@ -24,7 +24,7 @@ class Game extends Component {
 
   focusBoard() {
     const boardRef = this.boardRef.current;
-    if(boardRef) {
+    if (boardRef) {
       boardRef.focus();
     }
   }
@@ -40,6 +40,22 @@ class Game extends Component {
     return spritesPos;
   }
 
+  /* 
+    Save moves to localStorage 
+    Contributed by Soham Mondal <contact@sohammondal.com>
+  */
+  saveMoves(moves) {
+    // console.log(moves);
+    let savedMoves = localStorage.getItem("moves");
+    if (savedMoves) {
+      savedMoves = savedMoves.split(",");
+      savedMoves.push(moves);
+      localStorage.setItem("moves", savedMoves);
+    } else {
+      localStorage.setItem("moves", [moves]);
+    }
+  }
+
   updateMove({ x, y }) {
     if (this.spritesPos[y] === x) {
       this.spritesPos[y] = -1;
@@ -49,6 +65,7 @@ class Game extends Component {
     const hasFinished = this.remainingSprites === 0;
 
     if (!this.state.hasFinished && hasFinished) {
+      this.saveMoves(this.moves);
       this.setState({
         hasFinished: true
       });
@@ -143,7 +160,7 @@ class Game extends Component {
 
   handleGameClick = () => {
     this.focusBoard();
-  }
+  };
 
   keyHandler = event => {
     const { key } = event;
@@ -170,7 +187,7 @@ class Game extends Component {
           classList.push("has-user");
         } else if (this.spritesPos[i] === j) {
           classList.push("has-sprite");
-          const spriteType = j % 3 + 1;
+          const spriteType = (j % 3) + 1;
           classList.push(`sprite-${spriteType}`);
         }
 
@@ -197,23 +214,22 @@ class Game extends Component {
             Refresh page to play again
           </p>
         ) : (
-            <div>
-              <table
-                className="board"
-                tabIndex="0"
-                ref={this.boardRef}
-                onKeyDown={this.keyHandler}
-                data-testid="game-table"
-              >
-                <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
-              </table>
-              <p className="moves">
-                Moves so far
-                &nbsp;
-                <strong data-testid="moveCounter">{this.moves}</strong>
-              </p>
-            </div>
-          )}
+          <div>
+            <table
+              className="board"
+              tabIndex="0"
+              ref={this.boardRef}
+              onKeyDown={this.keyHandler}
+              data-testid="game-table"
+            >
+              <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
+            </table>
+            <p className="moves">
+              Moves so far &nbsp;
+              <strong data-testid="moveCounter">{this.moves}</strong>
+            </p>
+          </div>
+        )}
       </section>
     );
   }
