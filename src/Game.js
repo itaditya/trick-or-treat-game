@@ -14,9 +14,7 @@ class Game extends Component {
         x: Math.floor(boardSizeX / 2),
         y: Math.floor(boardSizeY / 2)
       },
-      hasFinished: true,
-      username: null,
-      isMovesSaved: false
+      hasFinished: false
     };
   }
 
@@ -43,46 +41,18 @@ class Game extends Component {
   }
 
   /* 
-    Takes username input to save moves
-     ** Contributed by Soham Mondal <contact@sohammondal.com> **
-  */
-  userNameInputForm() {
-    return (
-      <span className="userNameInputForm">
-        <input
-          type="text"
-          placeholder="Your name..."
-          onChange={e => this.setState({ username: e.target.value })}
-        />
-        <button
-          type="submit"
-          onClick={() => this.saveMoves(this.state.username, this.moves)}
-        >
-          Save
-        </button>
-      </span>
-    );
-  }
-
-  /* 
     Save moves to localStorage 
-     ** Contributed by Soham Mondal <contact@sohammondal.com> **
+    Contributed by Soham Mondal <contact@sohammondal.com>
   */
-  saveMoves(name, moves) {
+  saveMoves(moves) {
     // console.log(moves);
-    const user = {
-      name,
-      moves
-    };
-    let savedUserMoves = localStorage.getItem("userMoves");
-    if (savedUserMoves) {
-      savedUserMoves = JSON.parse(savedUserMoves);
-      // console.log(savedUserMoves);
-      savedUserMoves.push(user);
-      localStorage.setItem("userMoves", JSON.stringify(savedUserMoves));
-      this.setState({ isMovesSaved: true });
+    let savedMoves = localStorage.getItem("moves");
+    if (savedMoves) {
+      savedMoves = savedMoves.split(",");
+      savedMoves.push(moves);
+      localStorage.setItem("moves", savedMoves);
     } else {
-      localStorage.setItem("userMoves", JSON.stringify([user]));
+      localStorage.setItem("moves", [moves]);
     }
   }
 
@@ -95,7 +65,7 @@ class Game extends Component {
     const hasFinished = this.remainingSprites === 0;
 
     if (!this.state.hasFinished && hasFinished) {
-      // this.saveMoves(this.moves);
+      this.saveMoves(this.moves);
       this.setState({
         hasFinished: true
       });
@@ -239,13 +209,6 @@ class Game extends Component {
             Took &nbsp;
             <strong data-testid="moveCounter">{this.moves}</strong>
             &nbsp; moves
-            <br />
-            <br />
-            {this.state.isMovesSaved ? (
-              <span>Thanks, {this.state.username}! Your moves are saved.</span>
-            ) : (
-              this.userNameInputForm()
-            )}
             <br />
             <br />
             Refresh page to play again
