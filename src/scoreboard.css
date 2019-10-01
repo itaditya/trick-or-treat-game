@@ -1,0 +1,21 @@
+.scoreboard {
+  position: absolute;
+  color: white;
+  padding: 10px;
+}
+
+.scoreboard-title {
+  padding: 3px 0px;
+}
+
+.scoreboard-scores-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.scoreboard-score-list-item {
+  margin: 2px 0;
+  font-size: 0.9em;
+  font-weight: 100;
+}
