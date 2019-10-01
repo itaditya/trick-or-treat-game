@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 
 function Game({ boardSizeX, boardSizeY }) {
-  const [spritesPos] = useState(generateSpritesPos(boardSizeX, boardSizeY));
+  const [spritesPos] = useState(() =>
+    generateSpritesPos(boardSizeX, boardSizeY)
+  );
   const [moves, setMoves] = useState(0); // please check readme
   // initially user is placed in center
   const [userPos, setUserPos] = useState({
