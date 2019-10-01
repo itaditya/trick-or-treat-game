@@ -1,9 +1,9 @@
-import React from "react";
+import React, {lazy, Suspense} from "react";
 import ReactDOM from "react-dom";
 
 import "./styles.css";
 import { Game } from "./Game";
-import BackgroundAudio from './BackgroundAudio'
+const BackgroundAudio = lazy(() => import('./BackgroundAudio'))
 
 const App = function() {
   const boardSizeX = 10;
@@ -11,7 +11,9 @@ const App = function() {
 
   return (
     <div className="App">
-      <BackgroundAudio />
+      <Suspense fallback={<div>Loading...</div>}>
+        <BackgroundAudio />
+      </Suspense>
       <Game boardSizeX={boardSizeX} boardSizeY={boardSizeY} />
     </div>
   );
