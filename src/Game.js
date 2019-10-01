@@ -24,7 +24,7 @@ class Game extends Component {
 
   focusBoard() {
     const boardRef = this.boardRef.current;
-    if(boardRef) {
+    if (boardRef) {
       boardRef.focus();
     }
   }
@@ -143,7 +143,7 @@ class Game extends Component {
 
   handleGameClick = () => {
     this.focusBoard();
-  }
+  };
 
   keyHandler = event => {
     const { key } = event;
@@ -170,7 +170,7 @@ class Game extends Component {
           classList.push("has-user");
         } else if (this.spritesPos[i] === j) {
           classList.push("has-sprite");
-          const spriteType = j % 3 + 1;
+          const spriteType = (j % 3) + 1;
           classList.push(`sprite-${spriteType}`);
         }
 
@@ -194,26 +194,28 @@ class Game extends Component {
             &nbsp; moves
             <br />
             <br />
-            Refresh page to play again
+            Refresh page to play again{" "}
+            <button type="button" onClick={() => window.location.reload()}>
+              Refresh
+            </button>
           </p>
         ) : (
-            <div>
-              <table
-                className="board"
-                tabIndex="0"
-                ref={this.boardRef}
-                onKeyDown={this.keyHandler}
-                data-testid="game-table"
-              >
-                <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
-              </table>
-              <p className="moves">
-                Moves so far
-                &nbsp;
-                <strong data-testid="moveCounter">{this.moves}</strong>
-              </p>
-            </div>
-          )}
+          <div>
+            <table
+              className="board"
+              tabIndex="0"
+              ref={this.boardRef}
+              onKeyDown={this.keyHandler}
+              data-testid="game-table"
+            >
+              <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
+            </table>
+            <p className="moves">
+              Moves so far &nbsp;
+              <strong data-testid="moveCounter">{this.moves}</strong>
+            </p>
+          </div>
+        )}
       </section>
     );
   }
