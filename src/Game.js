@@ -145,7 +145,7 @@ class Game extends Component {
     this.focusBoard();
   }
 
-  keyHandler = event => {
+  keyAndClickHandler = event => {
     const { key } = event;
     const arrowMapping = {
       ArrowLeft: this.moveLeft,
@@ -155,7 +155,7 @@ class Game extends Component {
     };
     const stateUpdater = arrowMapping[key];
     this.setState(stateUpdater, () => this.updateMove(this.state.userPos));
-  };
+  }
 
   renderBoard(boardSizeX, boardSizeY) {
     const {
@@ -202,7 +202,7 @@ class Game extends Component {
                 className="board"
                 tabIndex="0"
                 ref={this.boardRef}
-                onKeyDown={this.keyHandler}
+                onKeyDown={this.keyAndClickHandler}
                 data-testid="game-table"
               >
                 <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
@@ -212,6 +212,40 @@ class Game extends Component {
                 &nbsp;
                 <strong data-testid="moveCounter">{this.moves}</strong>
               </p>
+              <div className="gamepad">
+                <button 
+                className="gamepad__control gamepad__control--up"
+                onClick={() => {
+                  const event = { key: 'ArrowUp' };
+                  this.keyAndClickHandler(event);
+                }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 8l6 6H6z" fill="rgba(255,255,255,1)"/></svg>
+                </button>
+                <button
+                className="gamepad__control gamepad__control--right"
+                onClick={() => {
+                  const event = { key: 'ArrowRight' };
+                  this.keyAndClickHandler(event);
+                }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36"><path fill="none" d="M0 0h24v24H0z"/><path d="M16 12l-6 6V6z" fill="rgba(255,255,255,1)"/></svg>
+                </button>
+                <button
+                className="gamepad__control gamepad__control--left"
+                onClick={() => {
+                  const event = { key: 'ArrowLeft' };
+                  this.keyAndClickHandler(event);
+                }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36"><path fill="none" d="M0 0h24v24H0z"/><path d="M8 12l6-6v12z" fill="rgba(255,255,255,1)"/></svg>
+                </button>
+                <button
+                className="gamepad__control gamepad__control--down"
+                onClick={() => {
+                  const event = { key: 'ArrowDown' };
+                  this.keyAndClickHandler(event);
+                }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 16l-6-6h12z" fill="rgba(255,255,255,1)"/></svg>
+                </button>
+              </div>
             </div>
           )}
       </section>
