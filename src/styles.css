@@ -95,18 +95,21 @@ body {
   transform: translateX(-50%);
 }
 
+.gamepad__control--left, .gamepad__control--right {
+  top: 50px;
+
+}
+
 .gamepad__control--left {
-  top: 30px;
   left: 0;
 }
 
 .gamepad__control--right {
-  top: 30px;
   right: 0;
 }
 
 .gamepad__control--down {
-  top: 60px;
+  top: 100px;
 }
 
 @keyframes bg-pulse {
