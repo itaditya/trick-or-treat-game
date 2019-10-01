@@ -1,5 +1,5 @@
 import React, { Component, createRef } from "react";
-
+import { TwitterShareButton } from 'react-twitter-embed'
 class Game extends Component {
   constructor(props) {
     super(props);
@@ -188,14 +188,20 @@ class Game extends Component {
     return (
       <section className="game" onClick={this.handleGameClick}>
         {this.state.hasFinished ? (
-          <p className="moves">
-            Took &nbsp;
-            <strong data-testid="moveCounter">{this.moves}</strong>
-            &nbsp; moves
-            <br />
-            <br />
-            Refresh page to play again
-          </p>
+          <div>            
+            <p className="moves">
+              Took &nbsp;
+              <strong data-testid="moveCounter">{this.moves}</strong>
+              &nbsp; moves
+              <br />
+              <br />
+              Refresh page to play again
+            </p>
+            <TwitterShareButton
+              url={'https://trickortreat.surge.sh/'}
+              options={{ text: `I took ${this.moves} moves to finish this game!` }}
+            />
+          </div>
         ) : (
             <div>
               <table
