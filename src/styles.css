@@ -38,14 +38,17 @@ body {
 }
 
 .board-cell.sprite-1 {
+  animation: scale-up-center 1.5s linear infinite alternate-reverse both;
   background-image: url('/images/sweet-1.png');
 }
 
 .board-cell.sprite-2 {
+  animation: scale-up-center 1.5s linear 0.5s infinite alternate-reverse both;
   background-image: url('/images/sweet-2.png');
 }
 
 .board-cell.sprite-3 {
+  animation: scale-up-center 1.5s linear 0.8s infinite alternate-reverse both;
   background-image: url('/images/sweet-3.png');
 }
 
@@ -66,5 +69,15 @@ body {
 
   to {
     background-color: rgba(255, 255, 255, 0.4);
+  }
+}
+
+
+@keyframes scale-up-center {
+  0% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1.2);
   }
 }
