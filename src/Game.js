@@ -42,11 +42,7 @@ class Game extends Component {
     return spritesPos;
   }
 
-  /* 
-    Takes username input to save moves
-     ** Contributed by Soham Mondal <contact@sohammondal.com> **
-  */
-  userNameInputForm() {
+  renderUsernameForm() {
     return (
       <span className="userNameInputForm">
         <input
@@ -64,25 +60,19 @@ class Game extends Component {
     );
   }
 
-  /* 
-    Save moves to localStorage 
-     ** Contributed by Soham Mondal <contact@sohammondal.com> **
-  */
   saveMoves(name, moves) {
-    // console.log(moves);
     const user = {
       name,
       moves
     };
-    let savedUserMoves = localStorage.getItem("userMoves");
+    let savedUserMoves = localStorage.getItem('userMoves');
     if (savedUserMoves) {
       savedUserMoves = JSON.parse(savedUserMoves);
-      // console.log(savedUserMoves);
       savedUserMoves.push(user);
-      localStorage.setItem("userMoves", JSON.stringify(savedUserMoves));
+      localStorage.setItem('userMoves', JSON.stringify(savedUserMoves));
       this.setState({ isMovesSaved: true });
     } else {
-      localStorage.setItem("userMoves", JSON.stringify([user]));
+      localStorage.setItem('userMoves', JSON.stringify([user]));
     }
   }
 
@@ -244,29 +234,29 @@ class Game extends Component {
             {this.state.isMovesSaved ? (
               <span>Thanks, {this.state.username}! Your moves are saved.</span>
             ) : (
-              this.userNameInputForm()
-            )}
+                this.userNameInputForm()
+              )}
             <br />
             <br />
             Refresh page to play again
           </p>
         ) : (
-          <div>
-            <table
-              className="board"
-              tabIndex="0"
-              ref={this.boardRef}
-              onKeyDown={this.keyHandler}
-              data-testid="game-table"
-            >
-              <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
-            </table>
-            <p className="moves">
-              Moves so far &nbsp;
+            <div>
+              <table
+                className="board"
+                tabIndex="0"
+                ref={this.boardRef}
+                onKeyDown={this.keyHandler}
+                data-testid="game-table"
+              >
+                <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
+              </table>
+              <p className="moves">
+                Moves so far &nbsp;
               <strong data-testid="moveCounter">{this.moves}</strong>
-            </p>
-          </div>
-        )}
+              </p>
+            </div>
+          )}
       </section>
     );
   }
