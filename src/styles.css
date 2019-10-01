@@ -23,7 +23,7 @@ body {
   outline: 0;
   border-collapse: collapse;
   background-color: rgba(0, 0, 0, 0.6);
-  background-image: url('/images/board-background.png');
+  background-image: url("/images/board-background.png");
   background-blend-mode: overlay;
   background-size: cover;
   background-position: center;
@@ -38,20 +38,20 @@ body {
 }
 
 .board-cell.sprite-1 {
-  background-image: url('/images/sweet-1.png');
+  background-image: url("/images/sweet-1.png");
 }
 
 .board-cell.sprite-2 {
-  background-image: url('/images/sweet-2.png');
+  background-image: url("/images/sweet-2.png");
 }
 
 .board-cell.sprite-3 {
-  background-image: url('/images/sweet-3.png');
+  background-image: url("/images/sweet-3.png");
 }
 
 .board-cell.has-user {
   /*background-color: rgba(255, 255, 255, 0.26);*/
-  background-image: url('/images/user.png');
+  background-image: url("/images/user.png");
   animation: bg-pulse 0.6s linear infinite alternate;
 }
 
@@ -67,4 +67,17 @@ body {
   to {
     background-color: rgba(255, 255, 255, 0.4);
   }
+}
+
+/* 
+     ** Contributed by Soham Mondal <contact@sohammondal.com> **
+*/
+
+.userNameInputForm input {
+  width: 150px;
+}
+
+.userNameInputForm textarea:focus,
+input:focus {
+  outline: none;
 }
