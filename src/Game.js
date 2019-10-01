@@ -184,7 +184,7 @@ class Game extends Component {
   }
 
   render() {
-    const { boardSizeX, boardSizeY } = this.props;
+    const { boardSizeX, boardSizeY, onRestart } = this.props;
     return (
       <section className="game" onClick={this.handleGameClick}>
         {this.state.hasFinished ? (
@@ -194,7 +194,7 @@ class Game extends Component {
             &nbsp; moves
             <br />
             <br />
-            Refresh page to play again
+            <button onClick={onRestart}>Restart</button>
           </p>
         ) : (
             <div>
