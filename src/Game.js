@@ -184,6 +184,7 @@ class Game extends Component {
           type="text"
           className="username-input"
           placeholder="Your name..."
+          autoFocus
           onChange={e => this.setState({ username: e.target.value })}
         />
         <button
@@ -226,7 +227,7 @@ class Game extends Component {
   render() {
     const { boardSizeX, boardSizeY } = this.props;
     return (
-      <section className="game" onClick={this.handleGameClick}>
+      <main className="game" onClick={this.handleGameClick}>
         {this.state.hasFinished ? (
           <section className="gameover">
             <p className="moves">
@@ -245,8 +246,7 @@ class Game extends Component {
           </section>
         ) : (
           <Fragment>
-            <ScoreBoard />
-            <div>
+            <div className="board-container">
               <table
                 className="board"
                 tabIndex="0"
@@ -311,9 +311,10 @@ class Game extends Component {
                 </button>
               </div>
             </div>
+            <ScoreBoard />
           </Fragment>
         )}
-      </section>
+      </main>
     );
   }
 }
