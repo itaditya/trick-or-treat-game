@@ -1,4 +1,6 @@
-import React, { Component, createRef } from "react";
+import React, { Component, Fragment, createRef } from "react";
+
+import { ScoreBoard } from "./ScoreBoard";
 
 class Game extends Component {
   constructor(props) {
@@ -14,7 +16,9 @@ class Game extends Component {
         x: Math.floor(boardSizeX / 2),
         y: Math.floor(boardSizeY / 2)
       },
-      hasFinished: false
+      hasFinished: false,
+      username: null,
+      isMovesSaved: false
     };
   }
 
@@ -24,7 +28,7 @@ class Game extends Component {
 
   focusBoard() {
     const boardRef = this.boardRef.current;
-    if(boardRef) {
+    if (boardRef) {
       boardRef.focus();
     }
   }
@@ -38,6 +42,22 @@ class Game extends Component {
 
     // index is the row number and spritesPos[key] is the column number
     return spritesPos;
+  }
+
+  saveMoves() {
+    const user = {
+      name: this.state.username,
+      moves: this.moves,
+    };
+    let savedUserMoves = localStorage.getItem('userMoves');
+    if (savedUserMoves) {
+      savedUserMoves = JSON.parse(savedUserMoves);
+      savedUserMoves.push(user);
+      localStorage.setItem('userMoves', JSON.stringify(savedUserMoves));
+      this.setState({ isMovesSaved: true });
+    } else {
+      localStorage.setItem('userMoves', JSON.stringify([user]));
+    }
   }
 
   updateMove({ x, y }) {
@@ -143,7 +163,7 @@ class Game extends Component {
 
   handleGameClick = () => {
     this.focusBoard();
-  }
+  };
 
   keyAndClickHandler = event => {
     const { key } = event;
@@ -155,6 +175,26 @@ class Game extends Component {
     };
     const stateUpdater = arrowMapping[key];
     this.setState(stateUpdater, () => this.updateMove(this.state.userPos));
+  };
+
+  renderUsernameForm() {
+    return (
+      <form className="username-form">
+        <input
+          type="text"
+          className="username-input"
+          placeholder="Your name..."
+          onChange={e => this.setState({ username: e.target.value })}
+        />
+        <button
+          type="submit"
+          className="username-submit"
+          onClick={() => this.saveMoves()}
+        >
+          Save
+        </button>
+      </form>
+    );
   }
 
   renderBoard(boardSizeX, boardSizeY) {
@@ -170,7 +210,7 @@ class Game extends Component {
           classList.push("has-user");
         } else if (this.spritesPos[i] === j) {
           classList.push("has-sprite");
-          const spriteType = j % 3 + 1;
+          const spriteType = (j % 3) + 1;
           classList.push(`sprite-${spriteType}`);
         }
 
@@ -188,15 +228,22 @@ class Game extends Component {
     return (
       <section className="game" onClick={this.handleGameClick}>
         {this.state.hasFinished ? (
-          <p className="moves">
-            Took &nbsp;
-            <strong data-testid="moveCounter">{this.moves}</strong>
-            &nbsp; moves
-            <br />
-            <br />
-            Refresh page to play again
-          </p>
+          <section className="gameover">
+            <p className="moves">
+              You took&nbsp;
+              <strong data-testid="moveCounter">{this.moves}</strong>
+              &nbsp;moves
+            </p>
+            {this.state.isMovesSaved ? (
+              <span className="username-saved">Thanks for playing {this.state.username}! Your moves have been saved.</span>
+            ) : (
+              this.renderUsernameForm()
+            )}
+            <p className="instructions-final">Refresh the page to Play Again.</p>
+          </section>
         ) : (
+          <Fragment>
+            <ScoreBoard />
             <div>
               <table
                 className="board"
@@ -207,13 +254,12 @@ class Game extends Component {
               >
                 <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
               </table>
-              <p className="moves">
-                Moves so far
-                &nbsp;
+              <p className="moves-current">
+                Moves so far &nbsp;
                 <strong data-testid="moveCounter">{this.moves}</strong>
               </p>
               <div className="gamepad">
-                <button 
+                <button
                 className="gamepad__control gamepad__control--up"
                 onClick={() => {
                   const event = { key: 'ArrowUp' };
@@ -247,7 +293,8 @@ class Game extends Component {
                 </button>
               </div>
             </div>
-          )}
+          </Fragment>
+        )}
       </section>
     );
   }
