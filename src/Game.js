@@ -1,5 +1,33 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 
+const upArrow = (
+  <svg viewBox="0 0 24 24" width="36" height="36">
+    <path fill="none" d="M0 0h24v24H0z" />
+    <path d="M12 8l6 6H6z" fill="rgba(255,255,255,1)" />
+  </svg>
+);
+
+const rightArrow = (
+  <svg viewBox="0 0 24 24" width="36" height="36">
+    <path fill="none" d="M0 0h24v24H0z" />
+    <path d="M16 12l-6 6V6z" fill="rgba(255,255,255,1)" />
+  </svg>
+);
+
+const leftArrow = (
+  <svg viewBox="0 0 24 24" width="36" height="36">
+    <path fill="none" d="M0 0h24v24H0z" />
+    <path d="M8 12l6-6v12z" fill="rgba(255,255,255,1)" />
+  </svg>
+);
+
+const downArrow = (
+  <svg viewBox="0 0 24 24" width="36" height="36">
+    <path fill="none" d="M0 0h24v24H0z" />
+    <path d="M12 16l-6-6h12z" fill="rgba(255,255,255,1)" />
+  </svg>
+);
+
 function Game({ boardSizeX, boardSizeY }) {
   const [spritesPos] = useState(() =>
     generateSpritesPos(boardSizeX, boardSizeY)
@@ -218,15 +246,7 @@ function Game({ boardSizeX, boardSizeY }) {
                 keyAndClickHandler(event);
               }}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="36"
-                height="36"
-              >
-                <path fill="none" d="M0 0h24v24H0z" />
-                <path d="M12 8l6 6H6z" fill="rgba(255,255,255,1)" />
-              </svg>
+              {upArrow}
             </button>
             <button
               className="gamepad__control gamepad__control--right"
@@ -235,15 +255,7 @@ function Game({ boardSizeX, boardSizeY }) {
                 keyAndClickHandler(event);
               }}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="36"
-                height="36"
-              >
-                <path fill="none" d="M0 0h24v24H0z" />
-                <path d="M16 12l-6 6V6z" fill="rgba(255,255,255,1)" />
-              </svg>
+              {rightArrow}
             </button>
             <button
               className="gamepad__control gamepad__control--left"
@@ -252,15 +264,7 @@ function Game({ boardSizeX, boardSizeY }) {
                 keyAndClickHandler(event);
               }}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="36"
-                height="36"
-              >
-                <path fill="none" d="M0 0h24v24H0z" />
-                <path d="M8 12l6-6v12z" fill="rgba(255,255,255,1)" />
-              </svg>
+              {leftArrow}
             </button>
             <button
               className="gamepad__control gamepad__control--down"
@@ -269,15 +273,7 @@ function Game({ boardSizeX, boardSizeY }) {
                 keyAndClickHandler(event);
               }}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="36"
-                height="36"
-              >
-                <path fill="none" d="M0 0h24v24H0z" />
-                <path d="M12 16l-6-6h12z" fill="rgba(255,255,255,1)" />
-              </svg>
+              {downArrow}
             </button>
           </div>
         </div>
