@@ -1,4 +1,6 @@
-import React, { Component, createRef } from "react";
+import React, { Component, Fragment, createRef } from "react";
+
+import { ScoreBoard } from "./ScoreBoard";
 
 class Game extends Component {
   constructor(props) {
@@ -42,28 +44,10 @@ class Game extends Component {
     return spritesPos;
   }
 
-  renderUsernameForm() {
-    return (
-      <span className="userNameInputForm">
-        <input
-          type="text"
-          placeholder="Your name..."
-          onChange={e => this.setState({ username: e.target.value })}
-        />
-        <button
-          type="submit"
-          onClick={() => this.saveMoves(this.state.username, this.moves)}
-        >
-          Save
-        </button>
-      </span>
-    );
-  }
-
-  saveMoves(name, moves) {
+  saveMoves() {
     const user = {
-      name,
-      moves
+      name: this.state.username,
+      moves: this.moves,
     };
     let savedUserMoves = localStorage.getItem('userMoves');
     if (savedUserMoves) {
@@ -85,7 +69,6 @@ class Game extends Component {
     const hasFinished = this.remainingSprites === 0;
 
     if (!this.state.hasFinished && hasFinished) {
-      // this.saveMoves(this.moves);
       this.setState({
         hasFinished: true
       });
@@ -194,6 +177,26 @@ class Game extends Component {
     this.setState(stateUpdater, () => this.updateMove(this.state.userPos));
   };
 
+  renderUsernameForm() {
+    return (
+      <form className="username-form">
+        <input
+          type="text"
+          className="username-input"
+          placeholder="Your name..."
+          onChange={e => this.setState({ username: e.target.value })}
+        />
+        <button
+          type="submit"
+          className="username-submit"
+          onClick={() => this.saveMoves()}
+        >
+          Save
+        </button>
+      </form>
+    );
+  }
+
   renderBoard(boardSizeX, boardSizeY) {
     const {
       userPos: { x: userPosX, y: userPosY }
@@ -225,22 +228,22 @@ class Game extends Component {
     return (
       <section className="game" onClick={this.handleGameClick}>
         {this.state.hasFinished ? (
-          <p className="moves">
-            Took &nbsp;
-            <strong data-testid="moveCounter">{this.moves}</strong>
-            &nbsp; moves
-            <br />
-            <br />
+          <section className="gameover">
+            <p className="moves">
+              You took&nbsp;
+              <strong data-testid="moveCounter">{this.moves}</strong>
+              &nbsp;moves
+            </p>
             {this.state.isMovesSaved ? (
-              <span>Thanks, {this.state.username}! Your moves are saved.</span>
+              <span className="username-saved">Thanks for playing {this.state.username}! Your moves have been saved.</span>
             ) : (
-                this.userNameInputForm()
-              )}
-            <br />
-            <br />
-            Refresh page to play again
-          </p>
+              this.renderUsernameForm()
+            )}
+            <p className="instructions-final">Refresh the page to Play Again.</p>
+          </section>
         ) : (
+          <Fragment>
+            <ScoreBoard />
             <div>
               <table
                 className="board"
@@ -251,12 +254,13 @@ class Game extends Component {
               >
                 <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
               </table>
-              <p className="moves">
+              <p className="moves-current">
                 Moves so far &nbsp;
-              <strong data-testid="moveCounter">{this.moves}</strong>
+                <strong data-testid="moveCounter">{this.moves}</strong>
               </p>
             </div>
-          )}
+          </Fragment>
+        )}
       </section>
     );
   }

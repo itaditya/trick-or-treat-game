@@ -4,7 +4,6 @@ body {
 
 .App {
   font-family: sans-serif;
-  text-align: center;
   width: 100%;
   height: 100vh;
 }
@@ -13,10 +12,11 @@ body {
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
   background-color: #000;
+  color: #fff;
 }
 
 .board {
@@ -55,10 +55,6 @@ body {
   animation: bg-pulse 0.6s linear infinite alternate;
 }
 
-.moves {
-  color: #fff;
-}
-
 @keyframes bg-pulse {
   from {
     background-color: rgba(255, 255, 255, 0.26);
@@ -69,11 +65,63 @@ body {
   }
 }
 
-.userNameInputForm input {
-  width: 150px;
+.moves-current {
+  text-align: center;
+  font-size: 20px;
 }
 
-.userNameInputForm textarea:focus,
-input:focus {
+.gameover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.moves {
+  text-align: center;
+  font-size: 64px;
+  margin: 0;
+  margin-bottom: 40px;
+}
+
+.username-form {
+  display: flex;
+}
+
+.username-input {
+  color: #fff;
+  font-size: 24px;
+  width: 200px;
+  padding: 5px 10px;
+  border-radius: 2px;
+  border: 2px solid;
+  background-color: transparent;
+  margin-right: 10px;
+}
+
+::placeholder {
+  color: #fff;
+  opacity: 0.7;
+}
+
+.username-input:focus {
   outline: none;
+}
+
+.username-submit {
+  font-size: 20px;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #000;
+  border: none;
+  padding: 2px 20px;
+}
+
+.username-saved {
+  font-size: 24px;
+}
+
+.instructions-final {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #cdcdcd;
 }
