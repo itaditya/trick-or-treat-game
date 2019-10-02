@@ -1,13 +1,20 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import soundFile from './music.mp3'
 
-const BackgroundAudio = () => {
+const BackgroundAudio = (props) => {
+    let { muted } = props
+    let audio = null
+
+    useEffect(() => {
+        audio.volume = 0.12
+        audio.muted = muted
+        audio.play()
+    }, [muted, audio])
+
     return (
         <audio
-            id='bgAudio'
-            ref={audio => audio.volume = 0.15}
             src={soundFile}
-            autoPlay
+            ref={ref => audio = ref}
             loop
         />
     )
