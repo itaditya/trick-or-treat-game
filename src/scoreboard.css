@@ -1,3 +1,15 @@
+.scoreboard {
+  text-align: center;
+  padding-top: 20px;
+}
+
+@media (min-width: 480px) {
+  .scoreboard {
+    padding: 0;
+    text-align: left;
+  }
+}
+
 .scoreboard-title {
   font-size: 42px;
   margin-bottom: 30px;

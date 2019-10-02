@@ -33,7 +33,7 @@ class ScoreBoard extends React.Component {
   renderScoreboard() {
     const { userMoves } = this.state;
     return (
-      <div>
+      <section className="scoreboard">
         <div className="scoreboard-title">Score Board</div>
         <ol className="scoreboard-list">
             {userMoves.map(({ name, moves }, index) => {
@@ -48,7 +48,7 @@ class ScoreBoard extends React.Component {
               );
             })}
         </ol>
-      </div>
+      </section>
     );
   }
   render() {
