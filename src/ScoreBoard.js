@@ -14,12 +14,20 @@ class ScoreBoard extends React.Component {
     this.getUserMovesFromLocalStorage();
   }
   getUserMovesFromLocalStorage() {
-    let savedUserMoves = localStorage.getItem('userMoves');
-    if (savedUserMoves) {
-      savedUserMoves = JSON.parse(savedUserMoves);
-      savedUserMoves.sort((user1, user2) => user1.moves - user2.moves);
-      this.setState({ userMoves: savedUserMoves });
+    const jsonSavedUserMoves = localStorage.getItem('userMoves');
+
+    if (!jsonSavedUserMoves) {
+      return;
     }
+
+    const savedUserMoves = JSON.parse(jsonSavedUserMoves);
+
+    if(!Array.isArray(savedUserMoves)) {
+      return;
+    }
+
+    const sortedUserMoves = savedUserMoves.sort((user1, user2) => user1.moves - user2.moves);
+    this.setState({ userMoves: sortedUserMoves });
   }
 
   renderScoreboard() {

@@ -1,11 +1,28 @@
 import React from 'react';
 import { render, fireEvent, cleanup } from 'react-testing-library';
+
 import { Game } from '../Game';
 
 const boardSizeX = 10;
 const boardSizeY = 10;
 
+const originalLocalStorage = global.localStorage;
+
+const mockLocalStorage = {
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  clear: jest.fn()
+};
+
+beforeAll(() => {
+  global.localStorage = mockLocalStorage;
+});
+
 afterEach(cleanup);
+
+afterAll(() => {
+  global.localStorage = originalLocalStorage;
+});
 
 describe('Game board', () => {
   it('should have only one user tile', () => {

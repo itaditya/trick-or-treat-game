@@ -1,6 +1,6 @@
-import React, { Component, Fragment, createRef } from "react";
+import React, { Component, Fragment, createRef } from 'react';
 
-import { ScoreBoard } from "./ScoreBoard";
+import { ScoreBoard } from './ScoreBoard';
 
 class Game extends Component {
   constructor(props) {
@@ -14,11 +14,11 @@ class Game extends Component {
     this.state = {
       userPos: {
         x: Math.floor(boardSizeX / 2),
-        y: Math.floor(boardSizeY / 2)
+        y: Math.floor(boardSizeY / 2),
       },
       hasFinished: false,
       username: null,
-      isMovesSaved: false
+      isMovesSaved: false,
     };
   }
 
@@ -49,16 +49,16 @@ class Game extends Component {
       name: this.state.username,
       moves: this.moves,
     };
-    let savedUserMoves = localStorage.getItem('userMoves');
-    if (savedUserMoves) {
-      savedUserMoves = JSON.parse(savedUserMoves);
-      savedUserMoves.push(user);
-      localStorage.setItem('userMoves', JSON.stringify(savedUserMoves));
+
+    const jsonSavedUserMoves = window.localStorage.getItem('userMoves');
+
+    const savedUserMoves = jsonSavedUserMoves ? JSON.parse(jsonSavedUserMoves) : [];
+
+    const listUsers = [...savedUserMoves, user];
+    localStorage.setItem('userMoves', JSON.stringify(listUsers));
+
       this.setState({ isMovesSaved: true });
-    } else {
-      localStorage.setItem('userMoves', JSON.stringify([user]));
     }
-  }
 
   updateMove({ x, y }) {
     if (this.spritesPos[y] === x) {
@@ -70,7 +70,7 @@ class Game extends Component {
 
     if (!this.state.hasFinished && hasFinished) {
       this.setState({
-        hasFinished: true
+        hasFinished: true,
       });
     }
   }
@@ -88,11 +88,11 @@ class Game extends Component {
 
     const newUserPos = {
       x: userPos.x,
-      y: newY
+      y: newY,
     };
 
     return {
-      userPos: newUserPos
+      userPos: newUserPos,
     };
   };
 
@@ -110,11 +110,11 @@ class Game extends Component {
 
     const newUserPos = {
       x: userPos.x,
-      y: newY
+      y: newY,
     };
 
     return {
-      userPos: newUserPos
+      userPos: newUserPos,
     };
   };
 
@@ -131,11 +131,11 @@ class Game extends Component {
 
     const newUserPos = {
       x: newX,
-      y: userPos.y
+      y: userPos.y,
     };
 
     return {
-      userPos: newUserPos
+      userPos: newUserPos,
     };
   };
 
@@ -153,11 +153,11 @@ class Game extends Component {
 
     const newUserPos = {
       x: newX,
-      y: userPos.y
+      y: userPos.y,
     };
 
     return {
-      userPos: newUserPos
+      userPos: newUserPos,
     };
   };
 
@@ -171,7 +171,7 @@ class Game extends Component {
       ArrowLeft: this.moveLeft,
       ArrowRight: this.moveRight,
       ArrowUp: this.moveUp,
-      ArrowDown: this.moveDown
+      ArrowDown: this.moveDown,
     };
     const stateUpdater = arrowMapping[key];
     this.setState(stateUpdater, () => this.updateMove(this.state.userPos));
@@ -199,22 +199,22 @@ class Game extends Component {
 
   renderBoard(boardSizeX, boardSizeY) {
     const {
-      userPos: { x: userPosX, y: userPosY }
+      userPos: { x: userPosX, y: userPosY },
     } = this.state;
     const markup = [];
     for (let i = 0; i < boardSizeY; i++) {
       const rowInnerMarkup = [];
       for (let j = 0; j < boardSizeX; j++) {
-        const classList = ["board-cell"];
+        const classList = ['board-cell'];
         if (userPosY === i && userPosX === j) {
-          classList.push("has-user");
+          classList.push('has-user');
         } else if (this.spritesPos[i] === j) {
-          classList.push("has-sprite");
+          classList.push('has-sprite');
           const spriteType = (j % 3) + 1;
           classList.push(`sprite-${spriteType}`);
         }
 
-        const className = classList.join(" ");
+        const className = classList.join(' ');
         rowInnerMarkup.push(<td key={`${i}-${j}`} className={className} />);
       }
       const rowMarkup = <tr key={i}>{rowInnerMarkup}</tr>;
@@ -235,7 +235,9 @@ class Game extends Component {
               &nbsp;moves
             </p>
             {this.state.isMovesSaved ? (
-              <span className="username-saved">Thanks for playing {this.state.username}! Your moves have been saved.</span>
+              <span className="username-saved">
+                Thanks for playing {this.state.username}! Your moves have been saved.
+              </span>
             ) : (
               this.renderUsernameForm()
             )}
@@ -260,36 +262,52 @@ class Game extends Component {
               </p>
               <div className="gamepad">
                 <button
-                className="gamepad__control gamepad__control--up"
-                onClick={() => {
-                  const event = { key: 'ArrowUp' };
-                  this.keyAndClickHandler(event);
-                }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 8l6 6H6z" fill="rgba(255,255,255,1)"/></svg>
+                  className="gamepad__control gamepad__control--up"
+                  onClick={() => {
+                    const event = { key: 'ArrowUp' };
+                    this.keyAndClickHandler(event);
+                  }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36">
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M12 8l6 6H6z" fill="rgba(255,255,255,1)" />
+                  </svg>
                 </button>
                 <button
                 className="gamepad__control gamepad__control--right"
-                onClick={() => {
-                  const event = { key: 'ArrowRight' };
-                  this.keyAndClickHandler(event);
-                }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36"><path fill="none" d="M0 0h24v24H0z"/><path d="M16 12l-6 6V6z" fill="rgba(255,255,255,1)"/></svg>
+                  onClick={() => {
+                    const event = { key: 'ArrowRight' };
+                    this.keyAndClickHandler(event);
+                  }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36">
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M16 12l-6 6V6z" fill="rgba(255,255,255,1)" />
+                  </svg>
                 </button>
                 <button
-                className="gamepad__control gamepad__control--left"
-                onClick={() => {
-                  const event = { key: 'ArrowLeft' };
-                  this.keyAndClickHandler(event);
-                }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36"><path fill="none" d="M0 0h24v24H0z"/><path d="M8 12l6-6v12z" fill="rgba(255,255,255,1)"/></svg>
+                  className="gamepad__control gamepad__control--left"
+                  onClick={() => {
+                    const event = { key: 'ArrowLeft' };
+                    this.keyAndClickHandler(event);
+                  }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36">
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M8 12l6-6v12z" fill="rgba(255,255,255,1)" />
+                  </svg>
                 </button>
                 <button
-                className="gamepad__control gamepad__control--down"
-                onClick={() => {
-                  const event = { key: 'ArrowDown' };
-                  this.keyAndClickHandler(event);
-                }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36"><path fill="none" d="M0 0h24v24H0z"/><path d="M12 16l-6-6h12z" fill="rgba(255,255,255,1)"/></svg>
+                  className="gamepad__control gamepad__control--down"
+                  onClick={() => {
+                    const event = { key: 'ArrowDown' };
+                    this.keyAndClickHandler(event);
+                  }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36">
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M12 16l-6-6h12z" fill="rgba(255,255,255,1)" />
+                  </svg>
                 </button>
               </div>
             </div>
