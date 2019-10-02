@@ -4,16 +4,17 @@ class Game extends Component {
   constructor(props) {
     super(props);
     const { boardSizeX, boardSizeY } = props;
-    this.spritesPos = this.generateSpritesPos(boardSizeX, boardSizeY);
+    const initialUserPos = {
+      x: Math.floor(boardSizeX / 2),
+      y: Math.floor(boardSizeY / 2)
+    };
+    this.spritesPos = this.generateSpritesPos(boardSizeX, boardSizeY, initialUserPos);
     this.moves = 0; // please check readme
     this.remainingSprites = boardSizeY;
     this.boardRef = createRef();
     // initially user is placed in center
     this.state = {
-      userPos: {
-        x: Math.floor(boardSizeX / 2),
-        y: Math.floor(boardSizeY / 2)
-      },
+      userPos: initialUserPos,
       hasFinished: false
     };
   }
@@ -29,11 +30,21 @@ class Game extends Component {
     }
   }
 
-  generateSpritesPos(boardSizeX, boardSizeY) {
+  generateSpritesPos(boardSizeX, boardSizeY, initialUserPos) {
+    const getRandomXPos = () => Math.floor(Math.random() * boardSizeX);
+
     const spritesPos = [];
     for (let i = 0; i < boardSizeY; i += 1) {
-      const spritePos = Math.floor(Math.random() * boardSizeX);
-      spritesPos.push(spritePos);
+      spritesPos.push(getRandomXPos());
+    }
+
+    // If there's a sprite on the initial user pos, move it
+    if (spritesPos[initialUserPos.y] === initialUserPos.x) {
+      let spritePos;
+      do {
+        spritePos = getRandomXPos();
+      } while (spritePos === initialUserPos.x);
+      spritesPos[initialUserPos.y] = spritePos;
     }
 
     // index is the row number and spritesPos[key] is the column number
@@ -213,7 +224,7 @@ class Game extends Component {
                 <strong data-testid="moveCounter">{this.moves}</strong>
               </p>
               <div className="gamepad">
-                <button 
+                <button
                 className="gamepad__control gamepad__control--up"
                 onClick={() => {
                   const event = { key: 'ArrowUp' };

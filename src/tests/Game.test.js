@@ -139,17 +139,20 @@ describe('Move counter', () => {
   });
 
   it('should not increase move counter, when there is no place to move left', () => {
-    const { getByTestId } = render(<Game boardSizeX={1} boardSizeY={2} />);
+    const { getByTestId } = render(<Game boardSizeX={2} boardSizeY={1} />);
     const board = getByTestId('game-table');
     fireEvent.keyDown(board, {
       key: 'ArrowLeft'
     });
+    fireEvent.keyDown(board, {
+      key: 'ArrowLeft'
+    });
     const moveCounter = getByTestId('moveCounter');
-    expect(Number(moveCounter.innerHTML)).toBe(0);
+    expect(Number(moveCounter.innerHTML)).toBe(1);
   });
 
   it('should not increase move counter, when there is no place to move to right', () => {
-    const { getByTestId } = render(<Game boardSizeX={1} boardSizeY={2} />);
+    const { getByTestId } = render(<Game boardSizeX={2} boardSizeY={1} />);
     const board = getByTestId('game-table');
     fireEvent.keyDown(board, {
       key: 'ArrowRight'
@@ -161,9 +164,6 @@ describe('Move counter', () => {
   it('should show the score after game end', () => {
     const { getByTestId } = render(<Game boardSizeX={2} boardSizeY={1} />);
     const board = getByTestId('game-table');
-
-    // because has-sprite can be on has-user tail, we have to move two directions, to get
-    // the sprite that starts on initial user position
     fireEvent.keyDown(board, {
       key: 'ArrowLeft'
     });
