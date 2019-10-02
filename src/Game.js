@@ -52,101 +52,89 @@ function Game({ boardSizeX, boardSizeY }) {
     [spritesPos]
   );
 
-  const moveUp = useCallback(
-    userPos => {
-      const userPosY = userPos.y;
-      let newY;
+  const moveUp = userPos => {
+    const userPosY = userPos.y;
+    let newY;
 
-      if (userPosY > 0) {
-        newY = userPosY - 1;
-        setMoves(moves + 1);
-      } else {
-        newY = userPosY;
-      }
+    if (userPosY > 0) {
+      newY = userPosY - 1;
+      setMoves(moves => moves + 1);
+    } else {
+      newY = userPosY;
+    }
 
-      const newUserPos = {
-        x: userPos.x,
-        y: newY
-      };
+    const newUserPos = {
+      x: userPos.x,
+      y: newY
+    };
 
-      return {
-        userPos: newUserPos
-      };
-    },
-    [moves]
-  );
+    return {
+      userPos: newUserPos
+    };
+  };
 
-  const moveDown = useCallback(
-    userPos => {
-      const userPosY = userPos.y;
-      let newY;
+  const moveDown = userPos => {
+    const userPosY = userPos.y;
+    let newY;
 
-      if (userPosY < boardSizeY - 1) {
-        newY = userPosY + 1;
-        setMoves(moves + 1);
-      } else {
-        newY = userPosY;
-      }
+    if (userPosY < boardSizeY - 1) {
+      newY = userPosY + 1;
+      setMoves(moves => moves + 1);
+    } else {
+      newY = userPosY;
+    }
 
-      const newUserPos = {
-        x: userPos.x,
-        y: newY
-      };
+    const newUserPos = {
+      x: userPos.x,
+      y: newY
+    };
 
-      return {
-        userPos: newUserPos
-      };
-    },
-    [moves]
-  );
+    return {
+      userPos: newUserPos
+    };
+  };
 
-  const moveLeft = useCallback(
-    userPos => {
-      const userPosX = userPos.x;
-      let newX;
+  const moveLeft = userPos => {
+    const userPosX = userPos.x;
+    let newX;
 
-      if (userPosX > 0) {
-        newX = userPosX - 1;
-        setMoves(moves + 1);
-      } else {
-        newX = userPosX;
-      }
+    if (userPosX > 0) {
+      newX = userPosX - 1;
+      setMoves(moves => moves + 1);
+    } else {
+      newX = userPosX;
+    }
 
-      const newUserPos = {
-        x: newX,
-        y: userPos.y
-      };
+    const newUserPos = {
+      x: newX,
+      y: userPos.y
+    };
 
-      return {
-        userPos: newUserPos
-      };
-    },
-    [moves]
-  );
+    return {
+      userPos: newUserPos
+    };
+  };
 
-  const moveRight = useCallback(
-    userPos => {
-      const userPosX = userPos.x;
-      let newX;
+  const moveRight = userPos => {
+    const userPosX = userPos.x;
+    let newX;
 
-      if (userPosX < boardSizeX - 1) {
-        newX = userPosX + 1;
-        setMoves(moves + 1);
-      } else {
-        newX = userPosX;
-      }
+    if (userPosX < boardSizeX - 1) {
+      newX = userPosX + 1;
+      setMoves(moves => moves + 1);
+    } else {
+      newX = userPosX;
+    }
 
-      const newUserPos = {
-        x: newX,
-        y: userPos.y
-      };
+    const newUserPos = {
+      x: newX,
+      y: userPos.y
+    };
 
-      return {
-        userPos: newUserPos
-      };
-    },
-    [moves]
-  );
+    return {
+      userPos: newUserPos
+    };
+  };
 
   const handleGameClick = () => {
     focusBoard();
