@@ -1,4 +1,6 @@
-import React, { Component, createRef } from "react";
+import React, { Component, Fragment, createRef } from 'react';
+
+import { ScoreBoard } from './ScoreBoard';
 
 class Game extends Component {
   constructor(props) {
@@ -12,9 +14,11 @@ class Game extends Component {
     this.state = {
       userPos: {
         x: Math.floor(boardSizeX / 2),
-        y: Math.floor(boardSizeY / 2)
+        y: Math.floor(boardSizeY / 2),
       },
-      hasFinished: false
+      hasFinished: false,
+      username: null,
+      isMovesSaved: false,
     };
   }
 
@@ -24,7 +28,7 @@ class Game extends Component {
 
   focusBoard() {
     const boardRef = this.boardRef.current;
-    if(boardRef) {
+    if (boardRef) {
       boardRef.focus();
     }
   }
@@ -40,6 +44,22 @@ class Game extends Component {
     return spritesPos;
   }
 
+  saveMoves() {
+    const user = {
+      name: this.state.username,
+      moves: this.moves,
+    };
+
+    const jsonSavedUserMoves = window.localStorage.getItem('userMoves');
+
+    const savedUserMoves = jsonSavedUserMoves ? JSON.parse(jsonSavedUserMoves) : [];
+
+    const listUsers = [...savedUserMoves, user];
+    localStorage.setItem('userMoves', JSON.stringify(listUsers));
+
+      this.setState({ isMovesSaved: true });
+    }
+
   updateMove({ x, y }) {
     if (this.spritesPos[y] === x) {
       this.spritesPos[y] = -1;
@@ -50,7 +70,7 @@ class Game extends Component {
 
     if (!this.state.hasFinished && hasFinished) {
       this.setState({
-        hasFinished: true
+        hasFinished: true,
       });
     }
   }
@@ -68,11 +88,11 @@ class Game extends Component {
 
     const newUserPos = {
       x: userPos.x,
-      y: newY
+      y: newY,
     };
 
     return {
-      userPos: newUserPos
+      userPos: newUserPos,
     };
   };
 
@@ -90,11 +110,11 @@ class Game extends Component {
 
     const newUserPos = {
       x: userPos.x,
-      y: newY
+      y: newY,
     };
 
     return {
-      userPos: newUserPos
+      userPos: newUserPos,
     };
   };
 
@@ -111,11 +131,11 @@ class Game extends Component {
 
     const newUserPos = {
       x: newX,
-      y: userPos.y
+      y: userPos.y,
     };
 
     return {
-      userPos: newUserPos
+      userPos: newUserPos,
     };
   };
 
@@ -133,48 +153,69 @@ class Game extends Component {
 
     const newUserPos = {
       x: newX,
-      y: userPos.y
+      y: userPos.y,
     };
 
     return {
-      userPos: newUserPos
+      userPos: newUserPos,
     };
   };
 
   handleGameClick = () => {
     this.focusBoard();
-  }
+  };
 
-  keyHandler = event => {
+  keyAndClickHandler = event => {
     const { key } = event;
     const arrowMapping = {
       ArrowLeft: this.moveLeft,
       ArrowRight: this.moveRight,
       ArrowUp: this.moveUp,
-      ArrowDown: this.moveDown
+      ArrowDown: this.moveDown,
     };
     const stateUpdater = arrowMapping[key];
     this.setState(stateUpdater, () => this.updateMove(this.state.userPos));
   };
 
+  renderUsernameForm() {
+    return (
+      <form className="username-form">
+        <input
+          type="text"
+          className="username-input"
+          placeholder="Your name..."
+          autoFocus
+          onChange={e => this.setState({ username: e.target.value })}
+        />
+        <button
+          type="submit"
+          className="username-submit"
+          onClick={() => this.saveMoves()}
+        >
+          Save
+        </button>
+      </form>
+    );
+  }
+
   renderBoard(boardSizeX, boardSizeY) {
     const {
-      userPos: { x: userPosX, y: userPosY }
+      userPos: { x: userPosX, y: userPosY },
     } = this.state;
     const markup = [];
     for (let i = 0; i < boardSizeY; i++) {
       const rowInnerMarkup = [];
       for (let j = 0; j < boardSizeX; j++) {
-        const classList = ["board-cell"];
+        const classList = ['board-cell'];
         if (userPosY === i && userPosX === j) {
-          classList.push("has-user");
+          classList.push('has-user');
         } else if (this.spritesPos[i] === j) {
-          classList.push("has-sprite");
-          const spriteType = j % 3 + 1;
+          classList.push('has-sprite');
+          const spriteType = (j % 3) + 1;
           classList.push(`sprite-${spriteType}`);
         }
 
-        const className = classList.join(" ");
+        const className = classList.join(' ');
         rowInnerMarkup.push(<td key={`${i}-${j}`} className={className} />);
       }
       const rowMarkup = <tr key={i}>{rowInnerMarkup}</tr>;
@@ -186,35 +227,94 @@ class Game extends Component {
   render() {
     const { boardSizeX, boardSizeY } = this.props;
     return (
-      <section className="game" onClick={this.handleGameClick}>
+      <main className="game" onClick={this.handleGameClick}>
         {this.state.hasFinished ? (
-          <p className="moves">
-            Took &nbsp;
-            <strong data-testid="moveCounter">{this.moves}</strong>
-            &nbsp; moves
-            <br />
-            <br />
-            Refresh page to play again
-          </p>
+          <section className="gameover">
+            <p className="moves">
+              You took&nbsp;
+              <strong data-testid="moveCounter">{this.moves}</strong>
+              &nbsp;moves
+            </p>
+            {this.state.isMovesSaved ? (
+              <span className="username-saved">
+                Thanks for playing {this.state.username}! Your moves have been saved.
+              </span>
+            ) : (
+              this.renderUsernameForm()
+            )}
+            <p className="instructions-final">Refresh the page to Play Again.</p>
+          </section>
         ) : (
-            <div>
+          <Fragment>
+            <div className="board-container">
               <table
                 className="board"
                 tabIndex="0"
                 ref={this.boardRef}
-                onKeyDown={this.keyHandler}
+                onKeyDown={this.keyAndClickHandler}
                 data-testid="game-table"
               >
                 <tbody>{this.renderBoard(boardSizeX, boardSizeY)}</tbody>
               </table>
-              <p className="moves">
-                Moves so far
-                &nbsp;
+              <p className="moves-current">
+                Moves so far &nbsp;
                 <strong data-testid="moveCounter">{this.moves}</strong>
               </p>
+              <div className="gamepad">
+                <button
+                  className="gamepad__control gamepad__control--up"
+                  onClick={() => {
+                    const event = { key: 'ArrowUp' };
+                    this.keyAndClickHandler(event);
+                  }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36">
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M12 8l6 6H6z" fill="rgba(255,255,255,1)" />
+                  </svg>
+                </button>
+                <button
+                className="gamepad__control gamepad__control--right"
+                  onClick={() => {
+                    const event = { key: 'ArrowRight' };
+                    this.keyAndClickHandler(event);
+                  }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36">
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M16 12l-6 6V6z" fill="rgba(255,255,255,1)" />
+                  </svg>
+                </button>
+                <button
+                  className="gamepad__control gamepad__control--left"
+                  onClick={() => {
+                    const event = { key: 'ArrowLeft' };
+                    this.keyAndClickHandler(event);
+                  }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36">
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M8 12l6-6v12z" fill="rgba(255,255,255,1)" />
+                  </svg>
+                </button>
+                <button
+                  className="gamepad__control gamepad__control--down"
+                  onClick={() => {
+                    const event = { key: 'ArrowDown' };
+                    this.keyAndClickHandler(event);
+                  }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36">
+                    <path fill="none" d="M0 0h24v24H0z" />
+                    <path d="M12 16l-6-6h12z" fill="rgba(255,255,255,1)" />
+                  </svg>
+                </button>
+              </div>
             </div>
-          )}
-      </section>
+            <ScoreBoard />
+          </Fragment>
+        )}
+      </main>
     );
   }
 }
