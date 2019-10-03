@@ -7,7 +7,7 @@ class Controls extends Component {
       <Fragment>
         <div className="controls">
           <div className="controls-title">Instructions to Play</div>
-          <ul>
+          <ul className="instructions-list">
 
             <li>
               <p className="instruction">
