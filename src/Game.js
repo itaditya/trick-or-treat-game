@@ -1,7 +1,8 @@
 import React, { Component, Fragment, createRef } from 'react';
 
 import { ScoreBoard } from './ScoreBoard';
-import Controls from './Controls';
+import { Controls } from './Controls';
+
 
 class Game extends Component {
   constructor(props) {
