@@ -1,0 +1,40 @@
+.controls-title {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.controls i{
+  color: cadetblue;
+  margin: 0 0.6rem;
+}
+
+.controls i:hover{
+  color: cornflowerblue;
+}
+
+.controls ol{
+  padding-left: 10px;
+}
+
+.controls li{
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+}
+
+p{
+  font-size: 20px;
+  padding-left: 10px;
+  margin-top: 6px;
+}
+
+@media (max-width: 480px){
+  .controls{
+    display: none;
+  }
+
+  p{
+    margin-top: 12px;
+    margin-bottom: 10px;
+  }
+}
