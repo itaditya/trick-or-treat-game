@@ -3,7 +3,7 @@
   margin-bottom: 20px;
 }
 
-.controls ol {
+.instructions-list {
   padding-left: 10px;
   list-style-position: inside;
 }
@@ -22,10 +22,11 @@
   font-size: 20px;
   padding-left: 10px;
   margin-top: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 @media (max-width: 480px) {
+
   .controls {
     display: none;
   }
