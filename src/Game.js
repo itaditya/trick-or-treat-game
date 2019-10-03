@@ -24,6 +24,13 @@ class Game extends Component {
 
   componentDidMount() {
     this.focusBoard();
+
+    const script = document.createElement("script");
+
+    script.src = "https://platform.twitter.com/widgets.js";
+    script.async = true;
+
+    document.body.appendChild(script);
   }
 
   focusBoard() {
@@ -243,6 +250,14 @@ class Game extends Component {
               this.renderUsernameForm()
             )}
             <p className="instructions-final">Refresh the page to Play Again.</p>
+            <a
+              className="twitter-share-button"
+              href="https://twitter.com/intent/tweet"
+              data-url="https://trickortreat.surge.sh/"
+              data-text={`I beat the game in ${this.moves} moves! Think you can beat that?`}
+              data-size="large">
+              Share on Twitter
+            </a>
           </section>
         ) : (
           <Fragment>
