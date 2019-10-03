@@ -5,12 +5,17 @@
 
 .controls ol {
   padding-left: 10px;
+  list-style-position: inside;
 }
 
-.controls li {
-  display: flex;
-  align-items: center;
+.instruction {
   font-size: 20px;
+  margin: 0;
+  display: inline;
+}
+
+.instruction svg {
+  vertical-align: middle;
 }
 
 .note {
