@@ -49,6 +49,7 @@ body {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  animation: scale-up-center 1.5s linear infinite alternate-reverse both;
 }
 
 @media (min-width: 480px) {
@@ -64,17 +65,17 @@ body {
 }
 
 .board-cell.sprite-1 {
-  animation: scale-up-center 1.5s linear infinite alternate-reverse both;
+  animation-delay: 1s;
   background-image: url('/images/sweet-1.png');
 }
 
 .board-cell.sprite-2 {
-  animation: scale-up-center 1.5s linear 0.5s infinite alternate-reverse both;
+  animation-delay: 0.5s;
   background-image: url('/images/sweet-2.png');
 }
 
 .board-cell.sprite-3 {
-  animation: scale-up-center 1.5s linear 0.8s infinite alternate-reverse both;
+  animation-delay: 0.8s;
   background-image: url('/images/sweet-3.png');
 }
 
@@ -96,10 +97,10 @@ body {
 
 @keyframes scale-up-center {
   0% {
-    transform: scale(0.8);
+    transform: scale(0.9);
   }
   100% {
-    transform: scale(1.2);
+    transform: scale(1.0);
   }
 }
 
