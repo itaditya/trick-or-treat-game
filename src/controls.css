@@ -21,7 +21,6 @@
 }
 
 @media (max-width: 480px) {
-
   .controls {
     display: none;
   }
