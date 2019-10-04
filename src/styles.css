@@ -53,6 +53,7 @@ body {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  animation: scale-up-center 1.5s linear infinite alternate-reverse both;
 }
 
 @media (min-width: 480px) {
@@ -68,14 +69,17 @@ body {
 }
 
 .board-cell.sprite-1 {
+  animation-delay: 1s;
   background-image: url('/images/sweet-1.png');
 }
 
 .board-cell.sprite-2 {
+  animation-delay: 0.5s;
   background-image: url('/images/sweet-2.png');
 }
 
 .board-cell.sprite-3 {
+  animation-delay: 0.8s;
   background-image: url('/images/sweet-3.png');
 }
 
@@ -95,12 +99,19 @@ body {
   }
 }
 
+@keyframes scale-up-center {
+  0% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1.0);
+  }
+}
 
 .moves-current {
   text-align: center;
   font-size: 20px;
 }
-
 
 .gamepad {
   width: 300px;
