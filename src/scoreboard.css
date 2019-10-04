@@ -3,7 +3,7 @@
   padding-top: 25px;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 600px) {
   .scoreboard {
     padding: 0;
     text-align: left;
@@ -39,7 +39,7 @@
   color: #fff;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .scoreboard {
     padding-top: 10px;
   }
