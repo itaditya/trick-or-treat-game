@@ -38,13 +38,14 @@ class ScoreBoard extends React.Component {
         <div className="scoreboard-title">Score Board</div>
         <ol className="scoreboard-list">
           {userMoves.map(({ name, moves }, index) => {
+            const finalMoves = moves * (11 - this.state.boardSize);
             return (
               <li
                 key={index}
                 className="scoreboard-item"
               >
                 <strong>{name}</strong>
-                <span>: {moves} moves</span>
+                <span>: {finalMoves} moves</span>
               </li>
             );
           })}
