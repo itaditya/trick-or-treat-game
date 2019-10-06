@@ -70,6 +70,7 @@ async function moveTo(goalIndex, initialPosition, page) {
  */
 function getClosestCandy(currentPositon, candyPositions) {
   let closest;
+  // Arbritary high number for a default
   let lowestMoves = 999;
 
   candyPositions.forEach(candy => {
@@ -159,7 +160,7 @@ let browser;
 })();
 
 process.on("unhandledRejection", async error => {
-  console.error("Encountered following unhandled Erorr", error);
+  console.error("Encountered following unhandled Error", error);
   console.error("Exiting");
 
   if (browser) {
