@@ -3,11 +3,11 @@ import './controls.css';
 
 class Controls extends Component {
   render() {
-    const detailState = localStorage.getItem('userMoves') == null ? true : false;
+    const isDetailsExpanded = localStorage.getItem('userMoves') == null ? true : false;
     return (
       <Fragment>
         <div className="controls">
-          <details className="details" open={ detailState }>
+          <details className="details" open={isDetailsExpanded}>
             <summary className="controls-title summary">Instructions to Play</summary>
             <ul className="instructions-list">
               <li>
