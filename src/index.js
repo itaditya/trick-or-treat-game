@@ -1,8 +1,8 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import "./styles.css";
-import { Game } from "./Game";
+import './styles.css';
+import { Game } from './Game';
 
 const App = function() {
   const boardSizeX = 10;
@@ -15,5 +15,5 @@ const App = function() {
   );
 };
 
-const rootElement = document.getElementById("root");
+const rootElement = document.getElementById('root');
 ReactDOM.render(<App />, rootElement);
