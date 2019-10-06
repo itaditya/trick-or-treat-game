@@ -3,6 +3,7 @@ import React, { Component, Fragment, createRef } from 'react';
 import { ScoreBoard } from './ScoreBoard';
 import { Controls } from './Controls';
 
+import { BOARD_SIZE_MAX } from './constants';
 
 class Game extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class Game extends Component {
       hasFinished: false,
       username: null,
       isMovesSaved: false,
+      boardSize: boardSizeX
     };
   }
 
@@ -50,6 +52,7 @@ class Game extends Component {
     const user = {
       name: this.state.username,
       moves: this.moves,
+      adjustedMoves: this.moves * (BOARD_SIZE_MAX + 1 - this.state.boardSize)
     };
 
     const jsonSavedUserMoves = window.localStorage.getItem('userMoves');
@@ -228,13 +231,14 @@ class Game extends Component {
 
   render() {
     const { boardSizeX, boardSizeY } = this.props;
+    const adjustedMoves = this.moves * (BOARD_SIZE_MAX + 1 - boardSizeX)
     return (
       <main className="game" onClick={this.handleGameClick}>
         {this.state.hasFinished ? (
           <section className="gameover">
             <p className="moves">
               You took&nbsp;
-              <strong data-testid="moveCounter">{this.moves}</strong>
+              <strong data-testid="moveCounter">{adjustedMoves}</strong>
               &nbsp;moves
             </p>
             {this.state.isMovesSaved ? (
@@ -321,7 +325,7 @@ class Game extends Component {
               </div>
               <div>
                 <Controls />
-                <ScoreBoard boardSize={boardSizeX} />
+                <ScoreBoard />
               </div>
             </Fragment>
           )}
