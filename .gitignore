@@ -3,3 +3,6 @@ yarn.lock
 node_modules/
 coverage/
 .vscode/
+
+# Screenshot of completed game using bot
+completed-game.png
