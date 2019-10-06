@@ -3,6 +3,10 @@
   margin-bottom: 20px;
 }
 
+.summary {
+  cursor: pointer;
+}
+
 .instructions-list {
   padding-left: 10px;
   list-style-position: inside;
