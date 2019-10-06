@@ -30,12 +30,9 @@ describe('ScoreBoard component', () => {
 
   it('Should render 3 list correctly', () => {
     const { container } = render(<ScoreBoard />);
-    expect(container.querySelectorAll('li')[0].querySelector('strong').innerHTML).toEqual('Andy')
-    expect(container.querySelectorAll('li')[0].querySelector('span').innerHTML).toEqual(': 8 moves')
-    expect(container.querySelectorAll('li')[1].querySelector('strong').innerHTML).toEqual('Bill')
-    expect(container.querySelectorAll('li')[1].querySelector('span').innerHTML).toEqual(': 10 moves')
-    expect(container.querySelectorAll('li')[2].querySelector('strong').innerHTML).toEqual('John')
-    expect(container.querySelectorAll('li')[2].querySelector('span').innerHTML).toEqual(': 20 moves')
+    expect(container.querySelectorAll('li')[0].innerText).toEqual('Andy: 8 moves')
+    expect(container.querySelectorAll('li')[1].innerText).toEqual('Bill: 10 moves')
+    expect(container.querySelectorAll('li')[1].innerText).toEqual('John: 20 moves')
   })
 });
 
