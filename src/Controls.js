@@ -8,7 +8,6 @@ class Controls extends Component {
         <div className="controls">
           <div className="controls-title">Instructions to Play</div>
           <ul className="instructions-list">
-
             <li>
               <p className="instruction">
                 Press
@@ -33,7 +32,7 @@ class Controls extends Component {
 
             <li>
               <p className="instruction">
-                Press 
+                Press
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36">
                   <path fill="none" d="M0 0h24v24H0z" />
                   <path d="M12 8l6 6H6z" fill="rgba(255,255,255,1)" />
@@ -44,7 +43,7 @@ class Controls extends Component {
 
             <li>
               <p className="instruction">
-                Press 
+                Press
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36">
                   <path fill="none" d="M0 0h24v24H0z" />
                   <path d="M12 16l-6-6h12z" fill="rgba(255,255,255,1)" />
@@ -52,12 +51,13 @@ class Controls extends Component {
                 to Move Down.
               </p>
             </li>
-
           </ul>
         </div>
-        <p className="note">Note:&nbsp;To win get all the candies <br/> in the minimum possible moves.</p>
+        <p className="note">
+          Note:&nbsp;To win get all the candies <br /> in the minimum possible moves.
+        </p>
       </Fragment>
-    )
+    );
   }
 }
 

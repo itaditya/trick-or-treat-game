@@ -26,7 +26,6 @@
 }
 
 @media (max-width: 600px) {
-
   .controls {
     display: none;
   }
@@ -35,5 +34,4 @@
     margin-top: 12px;
     margin-bottom: 10px;
   }
-
 }
