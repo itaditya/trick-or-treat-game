@@ -10,18 +10,18 @@
   "dependencies": {
     "react": "^16.10.1",
     "react-dom": "^16.10.1",
-    "react-scripts": "^3.1.2",
-    "react-testing-library": "5.2.1"
+    "react-scripts": "^3.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "format": "prettier --write src/*"
+    "format": "prettier --write 'src/**/*.js'"
   },
   "devDependencies": {
-    "prettier": "1.18.2"
+    "prettier": "1.18.2",
+    "@testing-library/react": "9.3.0"
   },
   "prettier": {
     "trailingComma": "es5",
