@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -10,6 +12,7 @@ body {
   font-family: sans-serif;
 }
 
+/* styles for Board */
 
 .game {
   width: 100vw;
@@ -29,7 +32,6 @@ body {
     flex-direction: row;
   }
 }
-
 
 .board-container {
   display: flex;
@@ -109,7 +111,7 @@ body {
     transform: scale(0.9);
   }
   100% {
-    transform: scale(1.0);
+    transform: scale(1);
   }
 }
 
@@ -118,16 +120,18 @@ body {
   font-size: 20px;
 }
 
+/* styles for GamePad */
+
 .gamepad {
   width: 300px;
   height: 180px;
   display: grid;
   grid-template-areas:
-    "up up"
-    "left right"
-    "left right"
-    "left right"
-    "down down";
+    'up up'
+    'left right'
+    'left right'
+    'left right'
+    'down down';
 }
 
 @media (min-width: 600px) {
@@ -160,6 +164,7 @@ body {
   grid-area: right;
 }
 
+/* styles for GameOver */
 
 .gameover {
   display: flex;
@@ -230,6 +235,8 @@ body {
   font-size: 20px;
   color: #cdcdcd;
 }
+
+/* styles for Twitter Share Button */
 
 .twitter-share-button {
   display: inline-block;

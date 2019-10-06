@@ -1,4 +1,4 @@
-## How to use
+## How to Play the game.
 
 1. Use arrow keys to move the player and collect the candies.
 1. Try to collect the candies in the minimum number of moves possible.
@@ -17,3 +17,10 @@ For each row, one column is randomly selected and a candy is placed in it.
 1. Create a branch for the feature named `username-featurename`.
 1. Run `npm i` to install libraries and tool the project uses.
 1. Run `npm run start` to start game.
+
+## Contributors Guide
+
+1. Please create an Issue or comment on existing issue before sending a PR.
+1. Make sure all tests are passing. This can be done locally by running `npm run test`. Tests are also run via CI and you'll get a build status right on the PR itself.
+1. Run `npm run format` before the final commit.
+1. Allow [edits from maintainers](https://help.github.com/en/articles/allowing-changes-to-a-pull-request-branch-created-from-a-fork) on the PR.
