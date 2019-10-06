@@ -1,15 +1,12 @@
 import React from 'react';
 
-import { BOARD_SIZE_MAX } from './constants';
-
 import './scoreboard.css';
 
 class ScoreBoard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userMoves: null,
-      boardSize: props.boardSize
+      userMoves: null
     };
   }
 
@@ -29,25 +26,24 @@ class ScoreBoard extends React.Component {
       return;
     }
 
-    const sortedUserMoves = savedUserMoves.sort((user1, user2) => user1.moves - user2.moves);
+    const sortedUserMoves = savedUserMoves.sort((user1, user2) => user1.adjustedMoves - user2.adjustedMoves);
     this.setState({ userMoves: sortedUserMoves });
   }
 
   renderScoreboard() {
-    const { userMoves, boardSize } = this.state;
+    const { userMoves } = this.state;
     return (
       <section className="scoreboard">
         <div className="scoreboard-title">Score Board</div>
         <ol className="scoreboard-list">
-          {userMoves.map(({ name, moves }, index) => {
-            const finalMoves = moves * (BOARD_SIZE_MAX + 1 - boardSize);
+          {userMoves.map(({ name, adjustedMoves }, index) => {
             return (
               <li
                 key={index}
                 className="scoreboard-item"
               >
                 <strong>{name}</strong>
-                <span>: {finalMoves} moves</span>
+                <span>: {adjustedMoves} moves</span>
               </li>
             );
           })}
