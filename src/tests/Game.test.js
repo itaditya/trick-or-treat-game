@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from 'react-testing-library';
+import { render, fireEvent, cleanup, getByPlaceholderText } from 'react-testing-library';
 
 import { Game } from '../Game';
 
@@ -8,9 +8,15 @@ const boardSizeY = 10;
 
 const originalLocalStorage = global.localStorage;
 
+const store = {};
+
 const mockLocalStorage = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
+  getItem: function(key) {
+    return store[key] || null
+  },
+  setItem: function(key, value) {
+    store[key] = value.toString();
+  },
   clear: jest.fn()
 };
 
@@ -189,5 +195,29 @@ describe('Move counter', () => {
     });
     const moveCounter = getByTestId('moveCounter');
     expect(Number(moveCounter.innerHTML)).toBeGreaterThanOrEqual(1);
+  });
+
+  it('should save the score to local storage', () => {
+    const { getByTestId, getByPlaceholderText } = render(<Game boardSizeX={2} boardSizeY={1} />);
+    const board = getByTestId('game-table');
+
+    // because has-sprite can be on has-user tail, we have to move two directions, to get
+    // the sprite that starts on initial user position
+    fireEvent.keyDown(board, {
+      key: 'ArrowLeft'
+    });
+    fireEvent.keyDown(board, {
+      key: 'ArrowRight'
+    });
+
+    const windowLocalStorage = global.window.localStorage;
+
+    const usernameForm = getByPlaceholderText('Your name...');
+    const usernameSubmit = getByTestId('username-submit');
+    const leftClick = { button: 1 }
+    fireEvent.change(usernameForm, { target: { value: 'John' } });
+    fireEvent.click(usernameSubmit, leftClick);
+    expect(windowLocalStorage.getItem('userMoves'))
+            .toEqual(JSON.stringify([{ name: 'John', moves: 1 }]))
   });
 });

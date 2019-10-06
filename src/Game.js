@@ -192,6 +192,7 @@ class Game extends Component {
         <button
           type="submit"
           className="username-submit"
+          data-testid="username-submit"
           onClick={() => this.saveMoves()}
         >
           Save
