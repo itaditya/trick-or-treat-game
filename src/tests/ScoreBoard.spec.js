@@ -28,7 +28,7 @@ describe('ScoreBoard component', () => {
     expect(container.querySelectorAll('li')).toHaveLength(3)
   }) 
 
-  it('Should render 3 list correctly', () => {
+  it('Should render three items in list if three items are stored in localStorage', () => {
     const { container } = render(<ScoreBoard />);
     expect(container.querySelectorAll('li')[0].innerText).toEqual('Andy: 8 moves')
     expect(container.querySelectorAll('li')[1].innerText).toEqual('Bill: 10 moves')
