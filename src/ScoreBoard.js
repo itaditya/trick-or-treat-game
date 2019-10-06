@@ -22,7 +22,7 @@ class ScoreBoard extends React.Component {
 
     const savedUserMoves = JSON.parse(jsonSavedUserMoves);
 
-    if(!Array.isArray(savedUserMoves)) {
+    if (!Array.isArray(savedUserMoves)) {
       return;
     }
 
@@ -36,17 +36,14 @@ class ScoreBoard extends React.Component {
       <section className="scoreboard">
         <div className="scoreboard-title">Score Board</div>
         <ol className="scoreboard-list">
-            {userMoves.map(({ name, moves }, index) => {
-              return (
-                <li
-                  key={index}
-                  className="scoreboard-item"
-                >
-                  <strong>{name}</strong>
-                  <span>: {moves} moves</span>
-                </li>
-              );
-            })}
+          {userMoves.map(({ name, moves }, index) => {
+            return (
+              <li key={index} className="scoreboard-item">
+                <strong>{name}</strong>
+                <span>: {moves} moves</span>
+              </li>
+            );
+          })}
         </ol>
       </section>
     );

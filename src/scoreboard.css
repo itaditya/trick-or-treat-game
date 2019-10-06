@@ -28,7 +28,7 @@
 }
 
 .scoreboard-item:first-child {
-  color: #01D28E;
+  color: #01d28e;
 }
 
 .scoreboard-item:last-child {
@@ -43,5 +43,4 @@
   .scoreboard {
     padding-top: 10px;
   }
-
 }

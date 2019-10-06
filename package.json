@@ -1,7 +1,7 @@
 {
-  "name": "collect-squares-game",
+  "name": "trick-or-treat-game",
   "version": "1.0.0",
-  "description": "game to collect treats on the board",
+  "description": "game to collect treats on the board in minimum moves",
   "keywords": [
     "testing",
     "game"
@@ -18,6 +18,16 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "deploy": "npm run build && surge -p build/ -d https://trickortreat.surge.sh"
+    "format": "prettier --write src/*"
+  },
+  "devDependencies": {
+    "prettier": "1.18.2"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true,
+    "printWidth": 120
   }
 }
