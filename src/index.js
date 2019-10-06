@@ -3,16 +3,14 @@ import ReactDOM from "react-dom";
 
 import "./styles.css";
 import { Game } from "./Game";
-
-import getUrlParams from './getUrlParams';
+import { BOARD_SIZE_MAX, BOARD_SIZE_MIN } from './constants';
 
 const App = function () {
-
-  let size = parseInt(getUrlParams('size'), 10);
-
-  if (isNaN(size)) size = 10;
-  else if (size < 4) size = 4;
-  else if (size > 10) size = 10;
+  // eslint-disable-next-line
+  let size = parseInt(new URLSearchParams(location.search).get('size'), 10);
+  if (isNaN(size)) size = BOARD_SIZE_MAX;
+  size = Math.max(BOARD_SIZE_MIN, size);
+  size = Math.min(BOARD_SIZE_MAX, size);
 
   const boardSizeX = size;
   const boardSizeY = size;
