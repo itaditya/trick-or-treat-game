@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { BOARD_SIZE_MAX } from './constants';
+
 import './scoreboard.css';
 
 class ScoreBoard extends React.Component {
@@ -32,13 +34,13 @@ class ScoreBoard extends React.Component {
   }
 
   renderScoreboard() {
-    const { userMoves } = this.state;
+    const { userMoves, boardSize } = this.state;
     return (
       <section className="scoreboard">
         <div className="scoreboard-title">Score Board</div>
         <ol className="scoreboard-list">
           {userMoves.map(({ name, moves }, index) => {
-            const finalMoves = moves * (11 - this.state.boardSize);
+            const finalMoves = moves * (BOARD_SIZE_MAX + 1 - boardSize);
             return (
               <li
                 key={index}
