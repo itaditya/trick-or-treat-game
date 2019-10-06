@@ -9,6 +9,8 @@ class Game extends Component {
     super(props);
     const { boardSizeX, boardSizeY } = props;
     this.spritesPos = this.generateSpritesPos(boardSizeX, boardSizeY);
+    this.difficulty = this.getDifficulty();
+    this.obstructionsPos = this.generateObstructionPos(this.difficulty.obstructionsCount, boardSizeX, boardSizeY);
     this.moves = 0; // please check readme
     this.remainingSprites = boardSizeY;
     this.boardRef = createRef();
@@ -28,6 +30,16 @@ class Game extends Component {
     this.focusBoard();
   }
 
+  getDifficulty() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const difficultyName = urlParams.get('difficulty');
+    if(difficultyName === 'high') {
+      return { name: 'high', bonusPoints: 3, obstructionsCount: 2}
+    }
+
+    return { name: 'easy', bonusPoints: 0, obstructionsCount: 0}
+  }
+
   focusBoard() {
     const boardRef = this.boardRef.current;
     if (boardRef) {
@@ -38,7 +50,7 @@ class Game extends Component {
   generateSpritesPos(boardSizeX, boardSizeY) {
     const spritesPos = [];
     for (let i = 0; i < boardSizeY; i += 1) {
-      const spritePos = Math.floor(Math.random() * boardSizeX);
+      const spritePos = { x: Math.floor(Math.random() * boardSizeX), y: i };
       spritesPos.push(spritePos);
     }
 
@@ -46,10 +58,28 @@ class Game extends Component {
     return spritesPos;
   }
 
+  generateObstructionPos(count, boardSizeX, boardSizeY) {
+    const obstructionPos = [];
+    if (count > 0) {
+      for (let i = 0; i < count; i++) {
+        obstructionPos.push(this.getObstructionPos(boardSizeX, boardSizeY))
+      }
+    }
+    return obstructionPos;
+  }
+
+  getObstructionPos(boardSizeX, boardSizeY) {
+    const pos = { x: Math.floor(Math.random() * boardSizeX), y: Math.floor(Math.random() * boardSizeY) };
+    if (this.spritesPos.find(item => item.x === pos.x && item.y === pos.y)) {
+      return this.getObstructionPos(boardSizeX, boardSizeY);
+    }
+    return pos;
+  }
+
   saveMoves() {
     const user = {
       name: this.state.username,
-      moves: this.moves,
+      moves: this.moves - this.difficulty.bonusPoints,
     };
 
     const jsonSavedUserMoves = window.localStorage.getItem('userMoves');
@@ -59,15 +89,15 @@ class Game extends Component {
     const listUsers = [...savedUserMoves, user];
     localStorage.setItem('userMoves', JSON.stringify(listUsers));
 
-      this.setState({ isMovesSaved: true });
-    }
+    this.setState({ isMovesSaved: true });
+  }
 
   updateMove({ x, y }) {
-    if (this.spritesPos[y] === x) {
-      this.spritesPos[y] = -1;
+    if (this.spritesPos[y].x === x) {
+      this.spritesPos[y].y = -1;
+      this.spritesPos[y].x = -1;
       this.remainingSprites -= 1;
     }
-
     const hasFinished = this.remainingSprites === 0;
 
     if (!this.state.hasFinished && hasFinished) {
@@ -81,7 +111,7 @@ class Game extends Component {
     const userPosY = userPos.y;
     let newY;
 
-    if (userPosY > 0) {
+    if (userPosY > 0 && this.checkIfCellAvailable(userPosY - 1, userPos.x)) {
       newY = userPosY - 1;
       this.moves += 1;
     } else {
@@ -103,7 +133,7 @@ class Game extends Component {
     let newY;
     const { boardSizeY } = this.props;
 
-    if (userPosY < boardSizeY - 1) {
+    if (userPosY < boardSizeY - 1 && this.checkIfCellAvailable(userPosY + 1, userPos.x)) {
       newY = userPosY + 1;
       this.moves += 1;
     } else {
@@ -124,7 +154,7 @@ class Game extends Component {
     const userPosX = userPos.x;
     let newX;
 
-    if (userPosX > 0) {
+    if (userPosX > 0 && this.checkIfCellAvailable(userPos.y, userPosX - 1)) {
       newX = userPosX - 1;
       this.moves += 1;
     } else {
@@ -146,7 +176,7 @@ class Game extends Component {
     let newX;
     const { boardSizeX } = this.props;
 
-    if (userPosX < boardSizeX - 1) {
+    if (userPosX < boardSizeX - 1 && this.checkIfCellAvailable(userPos.y, userPosX + 1)) {
       newX = userPosX + 1;
       this.moves += 1;
     } else {
@@ -162,6 +192,10 @@ class Game extends Component {
       userPos: newUserPos,
     };
   };
+
+  checkIfCellAvailable(userY, userX) {
+    return !(this.obstructionsPos.find(item => item.x === userX && item.y === userY));
+  }
 
   handleGameClick = () => {
     this.focusBoard();
@@ -211,10 +245,12 @@ class Game extends Component {
         const classList = ['board-cell'];
         if (userPosY === i && userPosX === j) {
           classList.push('has-user');
-        } else if (this.spritesPos[i] === j) {
+        } else if (this.spritesPos[i].x === j && this.spritesPos[i].y === i) {
           classList.push('has-sprite');
           const spriteType = (j % 3) + 1;
           classList.push(`sprite-${spriteType}`);
+        } else if (this.obstructionsPos.find(item => item.x === j && item.y === i)) {
+          classList.push('has-stone-1')
         }
 
         const className = classList.join(' ');
@@ -237,6 +273,9 @@ class Game extends Component {
               <strong data-testid="moveCounter">{this.moves}</strong>
               &nbsp;moves
             </p>
+            <p>
+              (-{this.difficulty.bonusPoints} for {this.difficulty.name} difficulty)
+            </p>
             {this.state.isMovesSaved ? (
               <span className="username-saved">
                 Thanks for playing {this.state.username}! Your moves have been saved.
@@ -246,8 +285,13 @@ class Game extends Component {
             )}
             <p className="instructions-final">Refresh the page to Play Again.</p>
             <div className="twitter-share-button">
-              <svg className="twitter-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z"/></svg>
-              <a href={`https://twitter.com/intent/tweet?url=${window.location.origin}&text=I finished the game in ${this.moves} moves.`} target="_blank" title="Share on Twitter">
+              <svg className="twitter-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path
+                  d="M23.44 4.83c-.8.37-1.5.38-2.22.02.93-.56.98-.96 1.32-2.02-.88.52-1.86.9-2.9 1.1-.82-.88-2-1.43-3.3-1.43-2.5 0-4.55 2.04-4.55 4.54 0 .36.03.7.1 1.04-3.77-.2-7.12-2-9.36-4.75-.4.67-.6 1.45-.6 2.3 0 1.56.8 2.95 2 3.77-.74-.03-1.44-.23-2.05-.57v.06c0 2.2 1.56 4.03 3.64 4.44-.67.2-1.37.2-2.06.08.58 1.8 2.26 3.12 4.25 3.16C5.78 18.1 3.37 18.74 1 18.46c2 1.3 4.4 2.04 6.97 2.04 8.35 0 12.92-6.92 12.92-12.93 0-.2 0-.4-.02-.6.9-.63 1.96-1.22 2.56-2.14z" />
+              </svg>
+              <a
+                href={`https://twitter.com/intent/tweet?url=${window.location.origin}&text=I finished the game in ${this.moves} moves.`}
+                target="_blank" title="Share on Twitter">
                 Share your score on Twitter
               </a>
             </div>
@@ -282,7 +326,7 @@ class Game extends Component {
                   </svg>
                 </button>
                 <button
-                className="gamepad__control gamepad__control--right"
+                  className="gamepad__control gamepad__control--right"
                   onClick={() => {
                     const event = { key: 'ArrowRight' };
                     this.keyAndClickHandler(event);
