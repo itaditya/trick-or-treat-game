@@ -239,6 +239,8 @@ body {
   border-radius: 5px;
   transition: 25ms ease-out;
   padding: 0.5em 0.75em;
+  color: white;
+  text-decoration: none;
 }
 
 .twitter-share-button > a {
