@@ -23,7 +23,7 @@ beforeAll(() => {
 })
 
 describe('ScoreBoard component', () => {
-  it('Should render 3 list if three items is stored on local storage', () => {
+  it('should render three items in list if three items are stored in localStorage', () => {
     const { container } = render(<ScoreBoard />);
     expect(container.querySelectorAll('li')).toHaveLength(3)
   }) 
