@@ -1,6 +1,18 @@
+.scoreboard {
+  text-align: center;
+  padding-top: 25px;
+}
+
+@media (min-width: 600px) {
+  .scoreboard {
+    padding: 0;
+    text-align: left;
+  }
+}
+
 .scoreboard-title {
-  font-size: 42px;
-  margin-bottom: 30px;
+  font-size: 40px;
+  margin-bottom: 20px;
 }
 
 .scoreboard-list {
@@ -11,12 +23,12 @@
 }
 
 .scoreboard-item {
-  font-size: 28px;
-  margin-bottom: 20px;
+  font-size: 25px;
+  margin-bottom: 12px;
 }
 
 .scoreboard-item:first-child {
-  color: #01D28E;
+  color: #01d28e;
 }
 
 .scoreboard-item:last-child {
@@ -25,4 +37,10 @@
 
 .scoreboard-item:only-child {
   color: #fff;
+}
+
+@media (max-width: 600px) {
+  .scoreboard {
+    padding-top: 10px;
+  }
 }

@@ -1,0 +1,41 @@
+.controls-title {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.summary {
+  cursor: pointer;
+}
+
+.instructions-list {
+  padding-left: 10px;
+  list-style-position: inside;
+}
+
+.instruction {
+  font-size: 20px;
+  margin: 0;
+  display: inline;
+}
+
+.instruction svg {
+  vertical-align: middle;
+}
+
+.note {
+  font-size: 20px;
+  padding-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+  .controls {
+    display: none;
+  }
+
+  .note {
+    margin-top: 12px;
+    margin-bottom: 10px;
+  }
+}
