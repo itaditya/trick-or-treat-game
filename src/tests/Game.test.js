@@ -199,10 +199,8 @@ describe('Move counter', () => {
 
   it('should save the score to local storage', () => {
     const { getByTestId, getByPlaceholderText } = render(<Game boardSizeX={2} boardSizeY={1} />);
-    const board = getByTestId('game-table');
 
-    // because has-sprite can be on has-user tail, we have to move two directions, to get
-    // the sprite that starts on initial user position
+    // movement to complete the game
     fireEvent.keyDown(board, {
       key: 'ArrowLeft'
     });
@@ -210,14 +208,12 @@ describe('Move counter', () => {
       key: 'ArrowRight'
     });
 
-    const windowLocalStorage = global.window.localStorage;
-
     const usernameForm = getByPlaceholderText('Your name...');
     const usernameSubmit = getByTestId('username-submit');
     const leftClick = { button: 1 }
     fireEvent.change(usernameForm, { target: { value: 'John' } });
     fireEvent.click(usernameSubmit, leftClick);
-    expect(windowLocalStorage.getItem('userMoves'))
+    expect(store.userMoves)
             .toEqual(JSON.stringify([{ name: 'John', moves: 1 }]))
   });
 });
