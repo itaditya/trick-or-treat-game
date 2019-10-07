@@ -3,6 +3,10 @@
   margin-bottom: 20px;
 }
 
+.summary {
+  cursor: pointer;
+}
+
 .instructions-list {
   padding-left: 10px;
   list-style-position: inside;
@@ -25,8 +29,7 @@
   margin-bottom: 20px;
 }
 
-@media (max-width: 480px) {
-
+@media (max-width: 600px) {
   .controls {
     display: none;
   }
@@ -35,5 +38,4 @@
     margin-top: 12px;
     margin-bottom: 10px;
   }
-
 }
