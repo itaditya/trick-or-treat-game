@@ -201,8 +201,6 @@ describe('Move counter', () => {
     const { getByTestId, getByPlaceholderText } = render(<Game boardSizeX={2} boardSizeY={1} />);
     const board = getByTestId('game-table');
 
-    // because has-sprite can be on has-user tail, we have to move two directions, to get
-    // the sprite that starts on initial user position
     fireEvent.keyDown(board, {
       key: 'ArrowLeft'
     });
@@ -217,7 +215,7 @@ describe('Move counter', () => {
     const leftClick = { button: 1 }
     fireEvent.change(usernameForm, { target: { value: 'John' } });
     fireEvent.click(usernameSubmit, leftClick);
-    expect(windowLocalStorage.getItem('userMoves'))
+    expect(store.userMoves)
             .toEqual(JSON.stringify([{ name: 'John', moves: 1 }]))
   });
 });
