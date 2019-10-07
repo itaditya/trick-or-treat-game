@@ -8,6 +8,8 @@ class Game extends Component {
     super(props);
     const { boardSizeX, boardSizeY } = props;
     this.spritesPos = this.generateSpritesPos(boardSizeX, boardSizeY);
+    this.difficulty = this.getDifficulty();
+    this.obstructionsPos = this.generateObstructionPos(this.difficulty.obstructionsCount, boardSizeX, boardSizeY);
     this.moves = 0; // please check readme
     this.remainingSprites = boardSizeY;
     this.boardRef = createRef();
@@ -27,6 +29,16 @@ class Game extends Component {
     this.focusBoard();
   }
 
+  getDifficulty() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const difficultyName = urlParams.get('difficulty');
+    if(difficultyName === 'high') {
+      return { name: 'high', bonusPoints: 3, obstructionsCount: 2}
+    }
+
+    return { name: 'easy', bonusPoints: 0, obstructionsCount: 0}
+  }
+
   focusBoard() {
     const boardRef = this.boardRef.current;
     if (boardRef) {
@@ -37,7 +49,7 @@ class Game extends Component {
   generateSpritesPos(boardSizeX, boardSizeY) {
     const spritesPos = [];
     for (let i = 0; i < boardSizeY; i += 1) {
-      const spritePos = Math.floor(Math.random() * boardSizeX);
+      const spritePos = { x: Math.floor(Math.random() * boardSizeX), y: i };
       spritesPos.push(spritePos);
     }
 
@@ -45,10 +57,28 @@ class Game extends Component {
     return spritesPos;
   }
 
+  generateObstructionPos(count, boardSizeX, boardSizeY) {
+    const obstructionPos = [];
+    if (count > 0) {
+      for (let i = 0; i < count; i++) {
+        obstructionPos.push(this.getObstructionPos(boardSizeX, boardSizeY))
+      }
+    }
+    return obstructionPos;
+  }
+
+  getObstructionPos(boardSizeX, boardSizeY) {
+    const pos = { x: Math.floor(Math.random() * boardSizeX), y: Math.floor(Math.random() * boardSizeY) };
+    if (this.spritesPos.find(item => item.x === pos.x && item.y === pos.y)) {
+      return this.getObstructionPos(boardSizeX, boardSizeY);
+    }
+    return pos;
+  }
+
   saveMoves() {
     const user = {
       name: this.state.username,
-      moves: this.moves,
+      moves: this.moves - this.difficulty.bonusPoints,
     };
 
     const jsonSavedUserMoves = window.localStorage.getItem('userMoves');
@@ -62,11 +92,11 @@ class Game extends Component {
   }
 
   updateMove({ x, y }) {
-    if (this.spritesPos[y] === x) {
-      this.spritesPos[y] = -1;
+    if (this.spritesPos[y].x === x) {
+      this.spritesPos[y].y = -1;
+      this.spritesPos[y].x = -1;
       this.remainingSprites -= 1;
     }
-
     const hasFinished = this.remainingSprites === 0;
 
     if (!this.state.hasFinished && hasFinished) {
@@ -80,7 +110,7 @@ class Game extends Component {
     const userPosY = userPos.y;
     let newY;
 
-    if (userPosY > 0) {
+    if (userPosY > 0 && this.checkIfCellAvailable(userPosY - 1, userPos.x)) {
       newY = userPosY - 1;
       this.moves += 1;
     } else {
@@ -102,7 +132,7 @@ class Game extends Component {
     let newY;
     const { boardSizeY } = this.props;
 
-    if (userPosY < boardSizeY - 1) {
+    if (userPosY < boardSizeY - 1 && this.checkIfCellAvailable(userPosY + 1, userPos.x)) {
       newY = userPosY + 1;
       this.moves += 1;
     } else {
@@ -123,7 +153,7 @@ class Game extends Component {
     const userPosX = userPos.x;
     let newX;
 
-    if (userPosX > 0) {
+    if (userPosX > 0 && this.checkIfCellAvailable(userPos.y, userPosX - 1)) {
       newX = userPosX - 1;
       this.moves += 1;
     } else {
@@ -145,7 +175,7 @@ class Game extends Component {
     let newX;
     const { boardSizeX } = this.props;
 
-    if (userPosX < boardSizeX - 1) {
+    if (userPosX < boardSizeX - 1 && this.checkIfCellAvailable(userPos.y, userPosX + 1)) {
       newX = userPosX + 1;
       this.moves += 1;
     } else {
@@ -161,6 +191,10 @@ class Game extends Component {
       userPos: newUserPos,
     };
   };
+
+  checkIfCellAvailable(userY, userX) {
+    return !(this.obstructionsPos.find(item => item.x === userX && item.y === userY));
+  }
 
   handleGameClick = () => {
     this.focusBoard();
@@ -206,10 +240,12 @@ class Game extends Component {
         const classList = ['board-cell'];
         if (userPosY === i && userPosX === j) {
           classList.push('has-user');
-        } else if (this.spritesPos[i] === j) {
+        } else if (this.spritesPos[i].x === j && this.spritesPos[i].y === i) {
           classList.push('has-sprite');
           const spriteType = (j % 3) + 1;
           classList.push(`sprite-${spriteType}`);
+        } else if (this.obstructionsPos.find(item => item.x === j && item.y === i)) {
+          classList.push('has-stone-1')
         }
 
         const className = classList.join(' ');
@@ -231,6 +267,9 @@ class Game extends Component {
               You took&nbsp;
               <strong data-testid="moveCounter">{this.moves}</strong>
               &nbsp;moves
+            </p>
+            <p>
+              (-{this.difficulty.bonusPoints} for {this.difficulty.name} difficulty)
             </p>
             {this.state.isMovesSaved ? (
               <span className="username-saved">

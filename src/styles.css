@@ -91,6 +91,11 @@ body {
   animation: bg-pulse 0.6s linear infinite alternate;
 }
 
+.board-cell.has-stone-1 {
+  animation: none;
+  background-image: url('/images/stone-1.png');
+}
+
 @keyframes bg-pulse {
   from {
     background-color: rgba(255, 255, 255, 0.26);

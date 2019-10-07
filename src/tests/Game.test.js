@@ -14,6 +14,10 @@ const mockLocalStorage = {
   clear: jest.fn()
 };
 
+global.URLSearchParams = jest.fn(x => ({
+  get: jest.fn(y => x.includes(y) ? 'url does contain get parameter' : 'url does not contain get parameter'),
+}));
+
 beforeAll(() => {
   global.localStorage = mockLocalStorage;
 });
