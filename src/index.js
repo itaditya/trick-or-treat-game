@@ -1,9 +1,9 @@
-import React, {lazy, Suspense} from "react";
-import ReactDOM from "react-dom";
+import React, { lazy, Suspense } from 'react';
+import ReactDOM from 'react-dom';
 
-import "./styles.css";
-import { Game } from "./Game";
-const BackgroundAudio = lazy(() => import('./BackgroundAudio'))
+import './styles.css';
+import { Game } from './Game';
+const BackgroundAudio = lazy(() => import('./BackgroundAudio'));
 
 const App = function() {
   const boardSizeX = 10;
