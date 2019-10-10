@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import './GitHubRibbon.css'
+import './GitHubRibbon.css';
 
 class GitHubRibbon extends Component {
   render() {
     return (
       <div>
-        <a href="https://github.com/itaditya/trick-or-treat-game" className="github-corner" aria-label="View source on GitHub">
+        <a
+          href="https://github.com/itaditya/trick-or-treat-game"
+          className="github-corner"
+          aria-label="View source on GitHub"
+        >
           <svg
             width={80}
             height={80}
