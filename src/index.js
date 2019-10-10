@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 
 import './styles.css';
 import { Game } from './Game';
+import { GitHubRibbon } from './GitHubRibbon';
+
 const BackgroundAudio = lazy(() => import('./BackgroundAudio'));
 
 const App = function() {
@@ -12,6 +14,7 @@ const App = function() {
   return (
     <div className="App">
       <Suspense fallback={<div>Loading...</div>}>
+        <GitHubRibbon />
         <BackgroundAudio />
       </Suspense>
       <Game boardSizeX={boardSizeX} boardSizeY={boardSizeY} />
