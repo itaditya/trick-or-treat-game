@@ -24,7 +24,7 @@ class GitHubRibbon extends Component {
             fill="#fff"
             color="#151513"
           >
-            <path d="M0 0l115 115h15l12 27 108 108V0z" />
+            <path d="M0 0l115 115h15l12 27 108 108V0z"/>
             <path
               d="M128.3 109c-14.5-9.3-9.3-19.4-9.3-19.4 3-6.9 1.5-11 1.5-11-1.3-6.6 2.9-2.3 2.9-2.3 3.9 4.6 2.1 11 2.1 11-2.6 10.3 5.1 14.6 8.9 15.9"
               fill="currentColor"
@@ -43,4 +43,4 @@ class GitHubRibbon extends Component {
   }
 }
 
-export default GitHubRibbon;
+export { GitHubRibbon };

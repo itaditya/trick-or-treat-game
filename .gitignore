@@ -3,4 +3,3 @@ yarn.lock
 node_modules/
 coverage/
 .vscode/
-.idea/

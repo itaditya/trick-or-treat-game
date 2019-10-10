@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 
 import './styles.css';
 import { Game } from './Game';
-import GitHubRibbon from './GitHubRibbon';
+import { GitHubRibbon } from './GitHubRibbon';
+
 const BackgroundAudio = lazy(() => import('./BackgroundAudio'));
 
 const App = function() {
