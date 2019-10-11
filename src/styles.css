@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -10,6 +12,7 @@ body {
   font-family: sans-serif;
 }
 
+/* styles for Board */
 
 .game {
   width: 100vw;
@@ -24,12 +27,11 @@ body {
   padding: 10px 0;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 600px) {
   .game {
     flex-direction: row;
   }
 }
-
 
 .board-container {
   display: flex;
@@ -56,7 +58,7 @@ body {
   animation: scale-up-center 1.5s linear infinite alternate-reverse both;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 600px) {
   .board-cell {
     padding: 18px;
   }
@@ -104,7 +106,7 @@ body {
     transform: scale(0.9);
   }
   100% {
-    transform: scale(1.0);
+    transform: scale(1);
   }
 }
 
@@ -113,19 +115,21 @@ body {
   font-size: 20px;
 }
 
+/* styles for GamePad */
+
 .gamepad {
   width: 300px;
   height: 180px;
   display: grid;
   grid-template-areas:
-    "up up"
-    "left right"
-    "left right"
-    "left right"
-    "down down";
+    'up up'
+    'left right'
+    'left right'
+    'left right'
+    'down down';
 }
 
-@media (min-width: 480px) {
+@media (min-width: 600px) {
   .gamepad {
     display: none;
   }
@@ -155,6 +159,7 @@ body {
   grid-area: right;
 }
 
+/* styles for GameOver */
 
 .gameover {
   display: flex;
@@ -170,7 +175,7 @@ body {
   margin-bottom: 40px;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 600px) {
   .moves {
     font-size: 64px;
   }
@@ -214,7 +219,7 @@ body {
   line-height: 1.5;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 600px) {
   .username-saved {
     font-size: 24px;
   }
@@ -226,12 +231,16 @@ body {
   color: #cdcdcd;
 }
 
+/* styles for Twitter Share Button */
+
 .twitter-share-button {
   display: inline-block;
   background-color: #1b95e0;
   border-radius: 5px;
   transition: 25ms ease-out;
   padding: 0.5em 0.75em;
+  color: white;
+  text-decoration: none;
 }
 
 .twitter-share-button > a {
