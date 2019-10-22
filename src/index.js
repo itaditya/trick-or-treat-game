@@ -3,13 +3,26 @@ import ReactDOM from 'react-dom';
 
 import './styles.css';
 import { Game } from './Game';
+import { BOARD_SIZE_MAX, BOARD_SIZE_MIN } from './constants';
 import { GitHubRibbon } from './GitHubRibbon';
 
 const BackgroundAudio = lazy(() => import('./BackgroundAudio'));
 
-const App = function() {
-  const boardSizeX = 10;
-  const boardSizeY = 10;
+
+function getBoardSize() {
+  const strQuery = window.location.search;
+  const paramsQuery = new URLSearchParams(strQuery);
+  const paramSize = paramsQuery.get('size');
+  return parseInt(paramSize, 10) || BOARD_SIZE_MAX;
+}
+
+const App = function () {
+  let size = getBoardSize();
+  size = Math.max(BOARD_SIZE_MIN, size);
+  size = Math.min(BOARD_SIZE_MAX, size);
+
+  const boardSizeX = size;
+  const boardSizeY = size;
 
   return (
     <div className="App">

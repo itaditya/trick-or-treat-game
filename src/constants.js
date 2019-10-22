@@ -1,0 +1,4 @@
+const BOARD_SIZE_MAX = 10;
+const BOARD_SIZE_MIN = 4;
+
+export { BOARD_SIZE_MAX, BOARD_SIZE_MIN };
