@@ -6,7 +6,7 @@ class ScoreBoard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userMoves: null,
+      userMoves: null
     };
   }
 
@@ -26,7 +26,7 @@ class ScoreBoard extends React.Component {
       return;
     }
 
-    const sortedUserMoves = savedUserMoves.sort((user1, user2) => user1.moves - user2.moves);
+    const sortedUserMoves = savedUserMoves.sort((user1, user2) => user1.adjustedMoves - user2.adjustedMoves);
     this.setState({ userMoves: sortedUserMoves });
   }
 
@@ -36,11 +36,14 @@ class ScoreBoard extends React.Component {
       <section className="scoreboard">
         <div className="scoreboard-title">Score Board</div>
         <ol className="scoreboard-list">
-          {userMoves.map(({ name, moves }, index) => {
+          {userMoves.map(({ name, adjustedMoves }, index) => {
             return (
-              <li key={index} className="scoreboard-item">
+              <li
+                key={index}
+                className="scoreboard-item"
+              >
                 <strong>{name}</strong>
-                <span>: {moves} moves</span>
+                <span>: {adjustedMoves} moves</span>
               </li>
             );
           })}

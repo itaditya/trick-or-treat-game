@@ -8,20 +8,20 @@
   ],
   "main": "src/index.js",
   "dependencies": {
-    "react": "16.4.2",
-    "react-dom": "16.4.2",
-    "react-scripts": "1.1.4",
-    "react-testing-library": "5.2.1"
+    "react": "^16.10.1",
+    "react-dom": "^16.10.1",
+    "react-scripts": "^3.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "format": "prettier --write src/*"
+    "format": "prettier --write 'src/**/*'"
   },
   "devDependencies": {
-    "prettier": "1.18.2"
+    "prettier": "1.18.2",
+    "@testing-library/react": "9.3.0"
   },
   "prettier": {
     "trailingComma": "es5",
@@ -29,5 +29,17 @@
     "semi": true,
     "singleQuote": true,
     "printWidth": 120
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
