@@ -208,8 +208,6 @@ describe('Move counter', () => {
       key: 'ArrowRight'
     });
 
-    const windowLocalStorage = global.window.localStorage;
-
     const usernameForm = getByPlaceholderText('Your name...');
     const usernameSubmit = getByTestId('username-submit');
     const leftClick = { button: 1 }
