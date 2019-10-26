@@ -36,14 +36,14 @@ class ScoreBoard extends React.Component {
       <section className="scoreboard">
         <div className="scoreboard-title">Score Board</div>
         <ol className="scoreboard-list">
-          {userMoves.map(({ name, adjustedMoves }, index) => {
+          {userMoves.map(({ name, moves }, index) => {
             return (
               <li
                 key={index}
                 className="scoreboard-item"
               >
                 <strong>{name}</strong>
-                <span>: {adjustedMoves} moves</span>
+                <span>: {moves} moves</span>
               </li>
             );
           })}
