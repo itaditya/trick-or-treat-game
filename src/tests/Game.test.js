@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from 'react-testing-library';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 
 import { Game } from '../Game';
 
@@ -197,7 +197,7 @@ describe('Move counter', () => {
     const leftClick = { button: 1 }
     fireEvent.change(usernameForm, { target: { value: 'John' } });
     fireEvent.click(usernameSubmit, leftClick);
-    expect(store.userMoves)
-            .toEqual(JSON.stringify([{ name: 'John', moves: 1 }]))
+    expect(window.localStorage.getItem('userMoves'))
+            .toEqual(JSON.stringify([{ name: 'John', moves: 2, adjustedMoves: 18 }]))
   });
 });
